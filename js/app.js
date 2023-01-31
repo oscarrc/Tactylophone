@@ -97,7 +97,7 @@ const handleTouchStart = (e)=> {
     const target = document.elementFromPoint(touch.pageX,touch.pageY);    
     const note = e.target.getAttribute("data-key");
 
-    if(note) return;
+    if(!note) return;
     else e.preventDefault();
 
     playNote(note);
@@ -110,7 +110,7 @@ const handleTouchMove = (e)=> {
     const note = e.target.getAttribute("data-key");
     
     if(target?.id === element) return;    
-    if(note) return stopNote();
+    if(!note) return stopNote();
     else e.preventDefault();
 
     stopNote();

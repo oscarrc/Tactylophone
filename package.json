@@ -15,7 +15,7 @@
   "private": true,
   "scripts": {
     "deploy": "surge . tactylophone.oscarrc.me",
-    "init": "bubblewrap init --manifest https://nts-web.oscarrc.me/manifest.json --directory android/",
+    "init": "bubblewrap init --manifest https://tactylophone.oscarrc.me/manifest.json --directory android/",
     "build": "cd android && bubblewrap build",
     "update": "bubblewrap update --appVersionName 3 --manifest https://nts-web.oscarrc.me/manifest.json"
   },
