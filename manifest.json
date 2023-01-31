@@ -11,6 +11,13 @@
     "orientation": "portrait",
     "scope": "/",
     "start_url": "/",
+    "screenshots": [
+        {
+          "src": "img/screenshot.png",
+          "type": "image/png",
+          "sizes": "1600x757"
+        }
+      ],
     "icons": [
         {
           "src": "favicon.ico",

@@ -4,7 +4,7 @@
 
 A synthetizer at your fingertips
 
-![Tactylophone](https://github.com/oscarrc/tactylophone/blob/master/img/Tactylophone.svg?raw=true "Tactylophone")
+![Tactylophone](https://github.com/oscarrc/tactylophone/blob/master/img/screenshot.png?raw=true "Tactylophone")
 
 <table>
   <tr>
