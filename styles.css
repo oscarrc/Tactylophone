@@ -1,0 +1,101 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100dvh;
+    background-color: #0D0D0D;
+}
+
+.wrapper{
+    min-width: 75%
+}
+
+.key, .switch{    
+    cursor: pointer;
+}
+
+.cls-1, .cls-2 {
+    fill: #fff;
+}
+
+.cls-3 {
+    stroke-width: 2.5px;
+}
+
+.cls-3, .cls-4 {
+    fill: none;
+    stroke: #e6e6e6;
+}
+
+.cls-5 {
+    fill: #e6e6e6;
+}
+
+.cls-5, .cls-6, .cls-7, .cls-2, .cls-8 {
+    stroke: #000;
+}
+
+.cls-9 {
+    stroke: url(#Degradado_sin_nombre_2);
+}
+
+.cls-10 {
+    stroke: #1a1a1a;
+}
+
+.cls-10, .cls-7 {
+    stroke-width: 1.02px;
+}
+
+.cls-10, .cls-8 {
+    fill: #1a1a1a;
+}
+
+.cls-4 {
+    stroke-width: 1.5px;
+}
