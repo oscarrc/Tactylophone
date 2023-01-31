@@ -65,9 +65,24 @@ main {
     }
 }
 
-
 .wrapper {
     min-width: 75%;
+}
+
+.message{
+    display: none;
+    text-align: center;
+    color: white
+}
+
+@media screen and (max-width: 319px){
+    #stylophone{
+        display: none;
+    }
+
+    .message{
+        display: block;
+    }
 }
 
 .stylus div:first-child{
