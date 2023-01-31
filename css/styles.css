@@ -127,8 +127,16 @@ main {
 .tuning .dots, .tuning .numbers {
     display: flex;
     flex: 1;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
+}
+
+.tuning .dots span:first-child{
+    justify-self: flex-start;
+}
+
+.tuning .dots span:last-child{
+    justify-self: flex-end;
 }
 
 .toggle {
@@ -169,22 +177,9 @@ main {
 .tuning .dots span{
    background-color: #ffffff;
    border-radius: 100%;
+   width: 4px;
+   height: 4px;
 }
-
-.tuning .dots span:first-child{
-    width: 6px;
-    height: 6px;
-}
-
-.tuning .dots span:nth-child(2){
-    width: 4px;
-    height: 4px;
- }
-
- .tuning .dots span:nth-child(3){
-    width: 2px;
-    height: 2px;
- }
 
 .key, .switch{    
     cursor: pointer;
