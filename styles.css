@@ -104,11 +104,11 @@ main {
 }
 
 .stylus a, .stylus a:visited, .stylus a:active{
-    background-color: #1A1A1A;
-    color: white;
+    background-color: #ffffff;
+    color: #1a1a1a;
     padding: 4px 8px;
     border-radius: 2px;
-    border:none;
+    border:#1a1a1a;
     text-decoration: none;
     transition: all 200ms linear;
 }
@@ -133,7 +133,7 @@ main {
 
 .toggle {
     position: relative;
-    border: 1px solid #1A1A1A;
+    border: 1px solid #424242;
     display: flex;
     justify-content: center;
 }
@@ -143,8 +143,7 @@ main {
     top: 0;
     width: 33%;
     height: 15px;
-    background: #1a1a1a;
-    transition: left 200ms ease-in-out
+    background: #424242;
 }
 
 .toggle input {
@@ -222,6 +221,10 @@ main {
 
 .cls-10, .cls-8 {
     fill: #1a1a1a;
+}
+
+.cls-8{
+    fill: #424242
 }
 
 .cls-4 {
