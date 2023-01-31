@@ -145,17 +145,11 @@ const setMouseEventListeners = () => {
     })
 }
 
-const setTuning = (e) => {
-    tuning = parseInt(e.target.value)
-    console.log(tuning, e.target.value)
-};
-
 const setToggleEventListeners = () => {
     const toggle = document.getElementsByClassName("toggle-value");
     
     Object.keys(toggle).forEach( value => {
-        console.log(value)
-        toggle[value].addEventListener("change", setTunning, { pasive: false })
+        toggle[value].addEventListener("change", function(){tuning = parseFloat(this.value)})
     })
 }
 
@@ -174,6 +168,7 @@ const init = () => {
     setMouseEventListeners();
     setTouchEventListeners();
     setSwitchEventListeners();
+    setToggleEventListeners();
 }
 
 

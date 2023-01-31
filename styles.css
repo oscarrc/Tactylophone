@@ -121,13 +121,14 @@ main {
     display: flex;
     gap: 2px;
     flex-direction: column;
-    font-size: 8px
+    font-size: 6px
 }
 
 .tuning .dots, .tuning .numbers {
     display: flex;
     flex: 1;
     justify-content: space-around;
+    align-items: center;
 }
 
 .toggle {
@@ -172,18 +173,18 @@ main {
 }
 
 .tuning .dots span:first-child{
-    width: 10px;
-    height: 10px;
+    width: 6px;
+    height: 6px;
 }
 
 .tuning .dots span:nth-child(2){
-    width: 8px;
-    height: 8px;
+    width: 4px;
+    height: 4px;
  }
 
  .tuning .dots span:nth-child(3){
-    width: 6px;
-    height: 6px;
+    width: 2px;
+    height: 2px;
  }
 
 .key, .switch{    
