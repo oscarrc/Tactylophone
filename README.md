@@ -9,7 +9,7 @@ A synthetizer at your fingertips
 <table>
   <tr>
     <td align="center">
-      <a href="https://nts-web.oscarrc.me" target="_BLANK">
+      <a href="https://tactylophone.oscarrc.me" target="_BLANK">
       <img width="175" src="https://user-images.githubusercontent.com/3104648/28969264-d14f6178-791b-11e7-9399-e7820d6aaa39.png" alt="PWA"></a>
     </td>
     <td align="center">
