@@ -52,15 +52,94 @@ main {
     background-color: #1A1A1A;
 }
 
+@media screen and (min-width: 320px) and (max-width: 767px) and (orientation: portrait){
+    main {
+        transform: rotate(-90deg);
+        transform-origin: left top;
+        width: 100dvh;
+        height: 100dvw;
+        overflow-x: hidden;
+        position: absolute;
+        top: 100%;
+        left: 0;
+    }
+}
+
+
 .wrapper {
     min-width: 75%;
 }
 
-.stylus{
+.stylus div:first-child{
     background-color: #000000;
+    color: #ffffff;
+    font-size: 10px;
+    display: grid;
+    place-items: center;
+    place-content: center;
+    grid-auto-flow: column;
+    grid-template-columns: repeat(3, 1fr);
     width: 100%;
     height: 100%;
 }
+
+.heart{
+    color: red;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.stylus a, .stylus a:visited, .stylus a:active{
+    background-color: #1A1A1A;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 2px;
+    border:none;
+    text-decoration: none;
+    transition: all 200ms linear;
+}
+
+.stylus a:active{
+    transform: scale(0.95)
+}
+
+.tuning {
+    display: flex;
+    gap: 2px;
+    flex-direction: column;
+    font-size: 8px
+}
+
+.tuning div{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.tuning .switch input[type="radio"]{
+    flex: 1;
+    height: .5rem;
+    cursor: pointer;
+}
+
+.tuning .dots span{
+   background-color: #ffffff;
+   border-radius: 100%;
+}
+
+.tuning .dots span:first-child{
+    width: 10px;
+    height: 10px;
+}
+
+.tuning .dots span:nth-child(2){
+    width: 8px;
+    height: 8px;
+ }
+
+ .tuning .dots span:nth-child(3){
+    width: 6px;
+    height: 6px;
+ }
 
 .key, .switch{    
     cursor: pointer;
