@@ -46,13 +46,62 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    min-height: 100dvh;
-    background-color: #0D0D0D;
+    justify-content: flex-start;
+    height: 100dvh;
+    width: 100dvw;
+    background-color: #000000;
 }
 
-.wrapper{
-    min-width: 75%
+.grid{
+    position: relative;
+    width: calc(100% - 20px);
+    height: 65dvh;
+    margin: 10px;
+    background-color: #1A1A1A;
+}
+
+.grid:before{
+    content: "";
+    position: absolute;
+    width: calc(100% - 20px);
+    height: 62.5dvh;
+    margin: 10px;
+    background-color: #000000;
+    background-size: cover;
+    background-repeat: repeat;
+    background-image: url(img/tactylophone/grid.svg);
+}
+
+.logo{
+    background-color: #000000;   
+    position: fixed;
+    right: 40px;
+    top: 40px;
+    z-index: 10;
+    width: 40dvw;
+    padding: 10px;
+}
+
+.logo-text{
+    fill: #ffffff
+}
+
+.controls{
+    width: 100%;
+    margin: 0 10px;
+    height: 5dvh;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: repeat(3, 1fr); 
+    color: #ffffff;
+}
+
+.keyboard{
+    height: 30dvh;
+    width: calc(100% - 20px);
+    background-color: #ffffff;
+    border-radius: 10px;
+    margin-bottom: 10px;
 }
 
 .key, .switch{    
@@ -60,7 +109,7 @@ main {
 }
 
 .cls-1, .cls-2 {
-    fill: #fff;
+    fill: #ffffff;
 }
 
 .cls-3 {
