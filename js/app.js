@@ -62,12 +62,10 @@ const vibratoEffect = (param) => {
     oscEffect.start();
 }
 
-const playNote = (e) => {
+const playNote = (note) => {
+    if(!note) return
     if(!power) return;
     else if(!audioContext) audioContext = new AudioContext();
-
-    const note = e.target.getAttribute("data-key");
-    if(!note) return;
     
     const freq = frequencies[note];
     const osc = audioContext.createOscillator();
@@ -96,39 +94,43 @@ const stopNote = () => {
 
 const handleTouchStart = (e)=> {
     const touch = e.touches[0];        
-    const target = document.elementFromPoint(touch.pageX,touch.pageY);
+    const target = document.elementFromPoint(touch.pageX,touch.pageY);    
+    const note = e.target.getAttribute("data-key");
 
-    if(!target?.getAttribute("data-key")) return;
+    if(note) return;
+    else e.preventDefault();
 
-    e.preventDefault();
-    playNote(e);
+    playNote(note);
     element = target?.id;
 }
 
 const handleTouchMove = (e)=> {
     const touch = e.touches[0];        
-    const target = document.elementFromPoint(touch.pageX,touch.pageY);
+    const target = document.elementFromPoint(touch.pageX,touch.pageY);    
+    const note = e.target.getAttribute("data-key");
     
     if(target?.id === element) return;    
-    if(!target?.getAttribute("data-key")) return stopNote();
+    if(note) return stopNote();
     else e.preventDefault();
 
     stopNote();
-    playNote(e);
+    playNote(note);
     element = target?.id;
 }
 
 const mouseEventListeners = {
     mousedown: (e) => {
         active = true;
-        playNote(e);
+        const note = e.target.getAttribute("data-key");
+        playNote(note);
     },
     mouseup: () => {
         active = false
         stopNote();
     },
     mouseenter: (e) => {
-        active && playNote(e)
+        const note = e.target.getAttribute("data-key");
+        active && playNote(note)
     },
     mouseleave: stopNote
 }
