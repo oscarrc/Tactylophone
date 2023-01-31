@@ -22,7 +22,7 @@ A synthetizer at your fingertips
 
 ### How it works
 
-1. Visit the [Tactylophone web page](https://tactylophone.oscarrc.me) or install the Tactylophone app.
+1. Visit the [Tactylophone web page](https://tactylophone.oscarrc.me) or install [the Tactylophone app](https://play.google.com/store/apps/details?id=me.oscarrc.tactylophone.twa).
 2. Turn on the Tactylophone by clicking on the power switch
 3. Start playing
 
