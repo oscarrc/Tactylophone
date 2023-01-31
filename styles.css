@@ -46,62 +46,20 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     height: 100dvh;
     width: 100dvw;
-    background-color: #000000;
-}
-
-.grid{
-    position: relative;
-    width: calc(100% - 20px);
-    height: 65dvh;
-    margin: 10px;
     background-color: #1A1A1A;
 }
 
-.grid:before{
-    content: "";
-    position: absolute;
-    width: calc(100% - 20px);
-    height: 62.5dvh;
-    margin: 10px;
+.wrapper {
+    min-width: 75%;
+}
+
+.stylus{
     background-color: #000000;
-    background-size: cover;
-    background-repeat: repeat;
-    background-image: url(img/tactylophone/grid.svg);
-}
-
-.logo{
-    background-color: #000000;   
-    position: fixed;
-    right: 40px;
-    top: 40px;
-    z-index: 10;
-    width: 40dvw;
-    padding: 10px;
-}
-
-.logo-text{
-    fill: #ffffff
-}
-
-.controls{
     width: 100%;
-    margin: 0 10px;
-    height: 5dvh;
-    display: grid;
-    grid-auto-flow: column;
-    grid-template-columns: repeat(3, 1fr); 
-    color: #ffffff;
-}
-
-.keyboard{
-    height: 30dvh;
-    width: calc(100% - 20px);
-    background-color: #ffffff;
-    border-radius: 10px;
-    margin-bottom: 10px;
+    height: 100%;
 }
 
 .key, .switch{    
@@ -125,12 +83,8 @@ main {
     fill: #e6e6e6;
 }
 
-.cls-5, .cls-6, .cls-7, .cls-2, .cls-8 {
+.cls-5, .cls-6, .cls-7, .cls-2, .cls-8, .cls-9 {
     stroke: #000;
-}
-
-.cls-9 {
-    stroke: url(#Degradado_sin_nombre_2);
 }
 
 .cls-10 {
