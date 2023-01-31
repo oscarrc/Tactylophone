@@ -124,16 +124,46 @@ main {
     font-size: 8px
 }
 
-.tuning div{
+.tuning .dots, .tuning .numbers {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex: 1;
+    justify-content: space-around;
 }
 
-.tuning .switch input[type="radio"]{
+.toggle {
+    position: relative;
+    border: 1px solid #1A1A1A;
+    display: flex;
+    justify-content: center;
+}
+
+.toggle .handle{
+    position: absolute;
+    top: 0;
+    width: 33%;
+    height: 15px;
+    background: #1a1a1a;
+    transition: left 200ms ease-in-out
+}
+
+.toggle input {
+    height: 15px;
+    margin: 0;
     flex: 1;
-    height: .5rem;
     cursor: pointer;
+    opacity: 0;
+}
+
+.toggle input[value="0.5"]:checked ~ .handle{
+    left:0;
+}
+  
+.toggle input[value="1"]:checked ~ .handle{
+    left: 33%;
+}
+
+.toggle input[value="2"]:checked ~ .handle{
+    left: 66%;
 }
 
 .tuning .dots span{

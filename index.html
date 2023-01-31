@@ -94,13 +94,13 @@
                                 </g>
                             </g>
                             <g id="switches">
-                                <g id="power-switch" data-name="power">
+                                <g id="power-switch" class="switch">
                                     <rect id="power-socket" class="cls-6" x="25.96" y="283.6" width="25" height="40"/>
-                                    <rect role="" aria-checked="false" aria-label="power" id="power-handle" class="cls-8 switch" x="25.96" y="283.6" width="25" height="15"/>
+                                    <rect role="" aria-checked="false" aria-label="power" id="power-handle" class="cls-8" x="25.96" y="283.6" width="25" height="15"/>
                                 </g>
-                                <g id="vibrato-switch" data-name="vibrato">
+                                <g id="vibrato-switch" class="switch">
                                     <rect id="vibrato-socket" class="cls-6" x="75.96" y="283.6" width="25" height="40"/>
-                                    <rect role="switch" aria-checked="false" aria-label="vibrato" id="vibrato-handle" class="cls-8 switch" x="75.96" y="283.6" width="25" height="15"/>
+                                    <rect role="switch" aria-checked="false" aria-label="vibrato" id="vibrato-handle" class="cls-8" x="75.96" y="283.6" width="25" height="15"/>
                                 </g>
                             </g>
                         </g>
@@ -242,10 +242,11 @@
                                     <span></span>
                                     <span></span>
                                 </div>
-                                <div class="switch">
-                                    <input type="radio" value="0.5" name="tuning" />
-                                    <input type="radio" value="1" name="tuning" />
-                                    <input type="radio" value="2" name="tuning" />
+                                <div class="toggle">
+                                    <input class="toggle-value" aria-label="bass" type="radio" name="tuning" value="0.5">
+                                    <input class="toggle-value" aria-label="neutral" checked type="radio" name="tuning" value="1">
+                                    <input class="toggle-value" aria-label="treble" type="radio" name="tuning" value="2">
+                                    <div class="handle"></div>  
                                 </div>
                                 <div class="numbers">
                                     <span>1</span>

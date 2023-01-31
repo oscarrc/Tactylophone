@@ -145,6 +145,20 @@ const setMouseEventListeners = () => {
     })
 }
 
+const setTuning = (e) => {
+    tuning = parseInt(e.target.value)
+    console.log(tuning, e.target.value)
+};
+
+const setToggleEventListeners = () => {
+    const toggle = document.getElementsByClassName("toggle-value");
+    
+    Object.keys(toggle).forEach( value => {
+        console.log(value)
+        toggle[value].addEventListener("change", setTunning, { pasive: false })
+    })
+}
+
 const setTouchEventListeners = () => {
     document.getElementById("stylophone").addEventListener("touchstart", handleTouchStart, { passive: false });
     document.getElementById("stylophone").addEventListener("touchmove", handleTouchMove, { passive: false });
@@ -152,8 +166,8 @@ const setTouchEventListeners = () => {
 }
 
 const setSwitchEventListeners = () => {
-    document.getElementById("power-handle").addEventListener("click", togglePower);
-    document.getElementById("vibrato-handle").addEventListener("click", toggleVibrato);
+    document.getElementById("power-switch").addEventListener("click", togglePower);
+    document.getElementById("vibrato-switch").addEventListener("click", toggleVibrato);
 }
 
 const init = () => {
