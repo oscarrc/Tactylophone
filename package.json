@@ -1,0 +1,25 @@
+{
+  "name": "tactylophone",
+  "description": "The sinthetizer you play with your fingertips",
+  "version": "1.0.0",
+  "author": {
+    "name": "Oscar R.C.",
+    "email": "oscarrc.web@gmail.com",
+    "url": "https://oscarrc.me"
+  },
+  "repository": {
+    "url": "https://github.com/oscarrc/tactylophone",
+    "type": "git"
+  },
+  "homepage": "./",
+  "private": true,
+  "scripts": {
+    "deploy": "surge . tactylophone.oscarrc.me",
+    "init": "bubblewrap init --manifest https://nts-web.oscarrc.me/manifest.json --directory android/",
+    "build": "cd android && bubblewrap build",
+    "update": "bubblewrap update --appVersionName 3 --manifest https://nts-web.oscarrc.me/manifest.json"
+  },
+  "dependencies": {
+    "bubblewrap": "^0.2.0"
+  }
+}
