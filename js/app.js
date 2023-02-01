@@ -8,6 +8,7 @@ let element = null;
 let fullscreen = false;
 
 const isApp = document.referrer.includes('android-app://me.oscarrc.tactylophone.twa');
+const isTime = Date.now > 1677693749000;
 
 const frequencies = {
     "1": 110,
@@ -204,7 +205,6 @@ const init = () => {
     setToggleEventListeners();    
 }
 
-
-if(isApp) hideLinks();
+if(isApp && isTime) hideLinks();
 if ('serviceWorker' in navigator) navigator.serviceWorker.register("worker.js", { scope: '/' });
 document.addEventListener("DOMContentLoaded", init);
