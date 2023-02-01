@@ -71,7 +71,20 @@
             "type": "image/png",
             "sizes": "1024x1024",
             "purpose": "maskable"
-        },{
+        },
+        {
+            "src": "img/icons/monochrome_icon.png",
+            "type": "image/png",
+            "sizes": "1024x1024",
+            "purpose": "monochrome"
+        },
+        {
+          "src": "img/icons/monochrome_icon.svg",
+          "type": "image/svg+xml",
+          "sizes": "any",
+          "purpose": "monochrome"
+        },
+        {
           "src": "img/icons/icon.png",
           "type": "image/png",
           "sizes": "1024x1024"
