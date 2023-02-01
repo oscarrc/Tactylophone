@@ -98,7 +98,7 @@ const stopNote = () => {
 const handleTouchStart = (e)=> {
     const touch = e.touches[0];        
     const target = document.elementFromPoint(touch.pageX,touch.pageY);    
-    const note = e.target.getAttribute("data-key");
+    const note = target.getAttribute("data-key");
 
     if(!note) return;
     else e.preventDefault();
@@ -110,7 +110,7 @@ const handleTouchStart = (e)=> {
 const handleTouchMove = (e)=> {
     const touch = e.touches[0];        
     const target = document.elementFromPoint(touch.pageX,touch.pageY);    
-    const note = e.target.getAttribute("data-key");
+    const note = target.getAttribute("data-key");
     
     if(target?.id === element) return;    
     if(!note) return stopNote();
@@ -174,7 +174,7 @@ const hideLinks = () => {
 
 const requestFullScreen = () => {
     const elem = document.documentElement;
-    const fullscreenable = elem.clientWidth > elem.clientHeight ? elem.clientWidth < 768 : elem.clientHeight < 768
+    const fullscreenable = elem.clientWidth > elem.clientHeight ? elem.clientHeight < 768 : elem.clientWidth < 768
     
     if(isApp || !fullscreenable ) return;
     
