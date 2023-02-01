@@ -32,13 +32,13 @@ const frequencies = {
 const toggleVibrato = () => {
     vibrato = !vibrato
     document.getElementById("vibrato-handle").setAttribute("y", vibrato ? 308.6 : 283.6);
-    document.getElementById("vibrato-handle").setAttribute("aria-checked", vibrato);
+    document.getElementById("vibrato-switch").setAttribute("aria-checked", vibrato);
 };
 
 const togglePower = () => {
     power = !power;    
     document.getElementById("power-handle").setAttribute("y", power ? 308.6 : 283.6);
-    document.getElementById("power-handle").setAttribute("aria-checked", power);
+    document.getElementById("power-switch").setAttribute("aria-checked", power);
     
     if(!power) audioContext = null;
     else if(power && !audioContext) audioContext = new AudioContext();
