@@ -44,6 +44,7 @@ table {
 }
 
 main {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -109,7 +110,7 @@ main {
 }
 
 .github {
-    position: fixed;
+    position: absolute;
     top: 0;
     right: 0;
     width: 50px;
