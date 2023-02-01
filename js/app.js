@@ -5,6 +5,9 @@ let power = false;
 let active = false;
 let tuning = 1;
 let element = null;
+let fullscreen = false;
+
+const isApp = document.referrer.includes('android-app://me.oscarrc.tactylophone.twa');
 
 const frequencies = {
     "1": 110,
@@ -169,14 +172,39 @@ const hideLinks = () => {
     document.getElementById("ko-fi").style.visibility = "hidden";
 }
 
-const init = () => {
-    setMouseEventListeners();
-    setTouchEventListeners();
-    setSwitchEventListeners();
-    setToggleEventListeners();
+const requestFullScreen = () => {
+    const elem = document.documentElement;
+    const fullscreenable = elem.clientWidth > elem.clientHeight ? elem.clientWidth < 768 : elem.clientHeight < 768
+    
+    if(isApp || !fullscreenable ) return;
+    
+    if (elem.requestFullscreen) elem.requestFullscreen();
+    else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
+    else if (elem.msRequestFullscreen)  elem.msRequestFullscreen();
+    
+    fullscreen = true;
 }
 
 
+const setFullScreenEventListener = () => {
+    if(fullscreen){
+        document.removeEventListener("click", requestFullScreen);
+        document.removeEventListener("touchstart", requestFullScreen);
+    }else{
+        document.addEventListener("click", requestFullScreen);
+        document.addEventListener("touchstart", requestFullScreen);
+    }
+}
+
+const init = () => {
+    setFullScreenEventListener();
+    setMouseEventListeners();
+    setTouchEventListeners();
+    setSwitchEventListeners();
+    setToggleEventListeners();    
+}
+
+
+if(isApp) hideLinks();
 if ('serviceWorker' in navigator) navigator.serviceWorker.register("worker.js", { scope: '/' });
-if(document.referrer.includes('android-app://me.oscarrc.tactylophone.twa')) hideLinks();
 document.addEventListener("DOMContentLoaded", init);

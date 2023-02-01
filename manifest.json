@@ -7,7 +7,7 @@
     "lang": "en",
     "theme_color": "#000000",
     "background_color": "#1a1a1a",
-    "display": "standalone",
+    "display": "fullscreen",
     "orientation": "landscape",
     "scope": "/",
     "start_url": "/",
