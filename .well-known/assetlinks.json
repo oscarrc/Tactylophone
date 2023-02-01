@@ -1,10 +1,11 @@
-[{
-  "relation": ["delegate_permission/common.handle_all_urls"],
-  "target": {
-    "namespace": "android_app",
-    "package_name": "me.oscarrc.tactylophone.twa",
-    "sha256_cert_fingerprints": [
-      "C6:CB:8A:EA:2A:4E:18:05:A9:B8:00:F1:CB:56:18:10:0D:77:EC:11:2A:49:0F:9A:90:40:2B:D0:64:24:FE:BE"
-    ]
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "me.oscarrc.tactylophone.twa",
+      "sha256_cert_fingerprints":
+        ["0D:56:7C:56:0B:8A:39:11:06:B8:89:D2:B8:D3:8A:C8:B5:34:F7:44:46:54:2B:17:A0:E1:D0:43:6E:96:83:24"]
+    }
   }
-}]
+]
