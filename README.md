@@ -28,7 +28,7 @@ A synthetizer at your fingertips
 
 ### Features
 
-* Fully playable monophonic synthetizer
+* Fully playable monophonic synthesizer
 * Vibrato effect
 * Three tunning modes
 

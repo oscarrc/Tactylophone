@@ -1,7 +1,7 @@
 {
     "name": "Tactylophone",
     "short_name": "Tactylophone",
-    "description": "The sinthetizer you play with your fingertips",    
+    "description": "The synthesizer you play with your fingertips",    
     "categories": ["Music", "Synthesizer"],
     "dir": "ltr",
     "lang": "en",
