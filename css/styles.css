@@ -25,6 +25,7 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+    font-family: Arial, Helvetica, sans-serif;
 }
 ol, ul {
 	list-style: none;
@@ -99,23 +100,35 @@ main {
 }
 
 .heart{
-    color: red;
-    font-family: Arial, Helvetica, sans-serif;
+    color: red;    
 }
 
 .stylus a, .stylus a:visited, .stylus a:active{
-    background-color: #ffffff;
-    color: #1a1a1a;
-    padding: 4px 8px;
-    border-radius: 2px;
-    border:#1a1a1a;
+    color: #ffffff;
     text-decoration: none;
-    transition: all 200ms linear;
 }
 
-.stylus a:active{
-    transform: scale(0.95)
+.github {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 50px;
+    height: 50px;
+    background-color: #424242;
+    cursor: pointer;
+    clip-path: polygon(0 0, 100% 0, 100% 100%);
 }
+
+.github svg{    
+    width: 25px;
+    height: 25px;
+    display: block;
+    position: absolute;
+    left: 23px;
+    top: 3px;
+    fill: white;
+}
+
 
 .tuning {
     display: flex;
