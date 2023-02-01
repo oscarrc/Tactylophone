@@ -164,6 +164,11 @@ const setSwitchEventListeners = () => {
     document.getElementById("vibrato-switch").addEventListener("click", toggleVibrato);
 }
 
+const hideLinks = () => {
+    document.getElementById("copy").style.visibility = "hidden";
+    document.getElementById("ko-fi").style.visibility = "hidden";
+}
+
 const init = () => {
     setMouseEventListeners();
     setTouchEventListeners();
@@ -173,4 +178,5 @@ const init = () => {
 
 
 if ('serviceWorker' in navigator) navigator.serviceWorker.register("worker.js", { scope: '/' });
+if(document.referrer.includes('android-app://me.oscarrc.tactylophone.twa')) hideLinks();
 document.addEventListener("DOMContentLoaded", init);
