@@ -131,11 +131,10 @@ main {
 }
 
 
-.tuning {
-    display: flex;
-    gap: 2px;
-    flex-direction: column;
-    font-size: 6px
+.tuning {   
+    font-size: 6px;
+    background-color: #000000;
+    color: #ffffff;
 }
 
 .tuning .dots, .tuning .numbers {
@@ -158,6 +157,13 @@ main {
     border: 1px solid #424242;
     display: flex;
     justify-content: center;
+}
+
+.toggle-wrapper { 
+    display: flex;
+    gap: 2px;
+    flex-direction: column;
+    margin: 2.5px 18px;
 }
 
 .toggle .handle{
@@ -200,6 +206,55 @@ main {
 }
 
 .cls-1, .cls-2 {
+   fill: #fff;
+}
+
+.cls-3 {
+    stroke-width: 2.5px;
+}
+
+.cls-3, .cls-4 {
+    fill: none;
+    stroke: #e6e6e6;
+}
+
+.cls-5 {
+    fill: #a1a10c;
+}
+
+.cls-6 {
+    fill: #e6e6e6;
+}
+
+.cls-6, .cls-7, .cls-8, .cls-2, .cls-9 {
+    stroke: #000;
+}
+
+.cls-10 {
+    stroke: #1a1a1a;
+}
+
+.cls-11, .cls-12 {
+    fill: #1a1a1a;
+}
+
+.cls-9{
+fill: #424242;
+}
+
+.cls-12 {
+    stroke: #1a1a1a;
+}
+
+.cls-12, .cls-8 {
+    stroke-width: 1.02px;
+}
+
+.cls-4 {
+    stroke-width: 1.5px;
+}
+
+/* .cls-1, .cls-2 {
     fill: #ffffff;
 }
 
@@ -238,4 +293,4 @@ main {
 
 .cls-4 {
     stroke-width: 1.5px;
-}
+} */
