@@ -166,20 +166,20 @@ const setSwitchEventListeners = () => {
     document.getElementById("vibrato-switch").addEventListener("click", toggleVibrato);
 }
 
-const requestFullScreen = () => {
-    const elem = document.documentElement;
-    const fullscreenable = (elem.clientHeight > elem.clientWidth ? elem.clientWidth : elem.clientHeight) < 768;
+// const requestFullScreen = () => {
+//     const elem = document.documentElement;
+//     const fullscreenable = window.clientHeight > elem.clientHeight;
    
-    if(IS_APP || !fullscreenable ) return;
-    if (elem.requestFullscreen) elem.requestFullscreen();
-    else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
-    else if (elem.msRequestFullscreen)  elem.msRequestFullscreen();
-}
+//     if(IS_APP || !fullscreenable ) return;
+//     if (elem.requestFullscreen) elem.requestFullscreen();
+//     else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
+//     else if (elem.msRequestFullscreen)  elem.msRequestFullscreen();
+// }
 
-const setFullScreenEventListener = () => {
-    document.addEventListener("click", requestFullScreen);
-    document.addEventListener("touchstart", requestFullScreen);
-}
+// const setFullScreenEventListener = () => {
+//     document.addEventListener("click", requestFullScreen);
+//     document.addEventListener("touchstart", requestFullScreen);
+// }
 
 const handleLoader = () => {
     const loader = document.getElementById("loader");
@@ -197,7 +197,7 @@ const handleLoader = () => {
 
 const init = () => {
     handleLoader();
-    setFullScreenEventListener();
+    // setFullScreenEventListener();
     setMouseEventListeners();
     setTouchEventListeners();
     setSwitchEventListeners();

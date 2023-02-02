@@ -128,7 +128,7 @@ main {
     justify-content: center;
     height: 100dvh;
     width: 100dvw;
-    overflow: hidden;
+    overflow-x: hidden;
     background-color: #1A1A1A;
     transition-property: opacity;
     transition-duration: 500ms;
