@@ -204,6 +204,6 @@ const init = () => {
     setToggleEventListeners();    
 }
 
-if(isApp && isTime) hideLinks();
+if(isApp && !isTime) hideLinks();
 if ('serviceWorker' in navigator) navigator.serviceWorker.register("worker.js", { scope: '/' });
 document.addEventListener("DOMContentLoaded", init);
