@@ -4,7 +4,8 @@ let vibrato =  false;
 let power = false;
 let tuning = 1;
 let active = false;
-let element = null;
+let keyId = null;
+let touchId = null;
 
 const IS_APP = document.referrer.includes('android-app://me.oscarrc.tactylophone.twa');
 const IS_TIME = Date.now > 1677693749000;
@@ -24,11 +25,11 @@ const FREQUENCIES = {
     "8": 220.00,
     "8.5": 233.08,
     "9": 246.94,
-    "10":261.63,
+    "10": 261.63,
     "10.5": 277.18,
     "11":293.66,
     "11.5": 311.13,
-    "12":329.63
+    "12": 329.63
 }
 
 const toggleVibrato = () => {
@@ -94,57 +95,44 @@ const stopNote = () => {
     oscillator.disconnect();
 }
 
-const getTouchTargets = (touches) => {
-    return Object.values(touches).map( touch => {        
-        const element = document.elementFromPoint(touch.pageX, touch.pageY);
-        const note = element.getAttribute("data-key");
-
-        if(!note) return null;
-        return { element,  note }
-    }).filter( t => t !== null);
-}
-
 const handleTouchStart = (e)=> {
-    // const targets = getTouchTargets(e.touches);
-    
-    // if(!targets.length || !targets[0].note) return;
-    // else {
-    //     playNote(targets[0].note);
-    //     element = targets[0].element?.id;
-    // }
-
-    const touch = e.touches[0];        
+    const touch = e.touches[0];
     const target = document.elementFromPoint(touch.pageX,touch.pageY);    
     const note = target.getAttribute("data-key");
 
-    if(!note) return;
-    else e.preventDefault();
-
+    if(!note) return;    
+    if(touch.identifier !== touchId && touchId !== null) return;
+    
     playNote(note);
-    element = target?.id;
+    touchId = touch.identifier;
+    keyId = target?.id;
 }
 
-const handleTouchMove = (e)=> {    
-    // const targets = getTouchTargets(e.touches);
-    
-    // if(!targets.length) return stopNote();
-    // if(targets[0].element?.id === element) return;
-    // else {
-    //     element = targets[0].element?.id;
-    //     playNote(targets[0].note);
-    // }
+const handleTouchEnd = (e) => {
+    if(Object.values(e.touches).filter( t => t.identifier === touchId).length > 0 ) return;
+    touchId = null;
+    stopNote();
+}
 
-    const touch = e.touches[0];        
-    const target = document.elementFromPoint(touch.pageX,touch.pageY);    
+const handleTouchMove = (e) => {  
+    const touch = Object.values(e.touches).filter(t => t.identifier === touchId)?.[0];
+    if(!touch) return;
+
+    const target = document.elementFromPoint(touch.pageX,touch.pageY);
     const note = target.getAttribute("data-key");
     
-    if(target?.id === element) return;    
-    if(!note) return stopNote();
-    else e.preventDefault();
-
+    if(target?.id === keyId) return;
+    if(!note){
+        touchId = null;
+        stopNote();
+        return;
+    };
+    
+    e.preventDefault();
     stopNote();
     playNote(note);
-    element = target?.id;
+    
+    keyId = target?.id;
 }
 
 const mouseEventListeners = {
@@ -167,9 +155,9 @@ const mouseEventListeners = {
 const setMouseEventListeners = () => {
     const keys = document.getElementsByClassName("key");
     
-    Object.keys(keys).forEach( key => {
+    Object.values(keys).forEach( key => {
         Object.keys(mouseEventListeners).forEach( event => {
-            keys[key].addEventListener(event, mouseEventListeners[event], { pasive: false })
+            key.addEventListener(event, mouseEventListeners[event], { pasive: false })
         })
     })
 }
@@ -177,36 +165,21 @@ const setMouseEventListeners = () => {
 const setToggleEventListeners = () => {
     const toggle = document.getElementsByClassName("toggle-value");
     
-    Object.keys(toggle).forEach( value => {
-        toggle[value].addEventListener("change", function(){tuning = parseFloat(this.value)})
+    Object.values(toggle).forEach( value => {
+        value.addEventListener("change", function(){tuning = parseFloat(this.value)})
     })
 }
 
 const setTouchEventListeners = () => {
-    document.getElementById("stylophone").addEventListener("touchstart", handleTouchStart, { passive: false });
-    document.getElementById("stylophone").addEventListener("touchmove", handleTouchMove, { passive: false });
-    document.getElementById("stylophone").addEventListener("touchend", stopNote, { passive: false });
+    document.getElementById("keyboard").addEventListener("touchstart", handleTouchStart, { passive: false });
+    document.getElementById("keyboard").addEventListener("touchmove", handleTouchMove, { passive: false });
+    document.getElementById("keyboard").addEventListener("touchend", handleTouchEnd, { passive: false });
 }
 
 const setSwitchEventListeners = () => {
     document.getElementById("power-switch").addEventListener("click", togglePower);
     document.getElementById("vibrato-switch").addEventListener("click", toggleVibrato);
 }
-
-// const requestFullScreen = () => {
-//     const elem = document.documentElement;
-//     const fullscreenable = window.clientHeight > elem.clientHeight;
-   
-//     if(IS_APP || !fullscreenable ) return;
-//     if (elem.requestFullscreen) elem.requestFullscreen();
-//     else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
-//     else if (elem.msRequestFullscreen)  elem.msRequestFullscreen();
-// }
-
-// const setFullScreenEventListener = () => {
-//     document.addEventListener("click", requestFullScreen);
-//     document.addEventListener("touchstart", requestFullScreen);
-// }
 
 const handleLoader = () => {
     const loader = document.getElementById("loader");
@@ -224,13 +197,12 @@ const handleLoader = () => {
 
 const init = () => {
     handleLoader();
-    // setFullScreenEventListener();
     setMouseEventListeners();
     setTouchEventListeners();
     setSwitchEventListeners();
     setToggleEventListeners();    
 }
 
-if(IS_APP && !IS_TIME) document.getElementById("ko-fi").style.visibility = "hidden";;
+if(IS_APP && !IS_TIME) document.getElementById("ko-fi").style.visibility = "hidden";
 if ('serviceWorker' in navigator) navigator.serviceWorker.register("worker.js", { scope: '/' });
 document.addEventListener("DOMContentLoaded", init);
