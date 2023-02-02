@@ -46,6 +46,7 @@ table {
 main {
     position: relative;
     display: flex;
+    gap: 5px;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -220,6 +221,21 @@ main {
    border-radius: 100%;
    width: 4px;
    height: 4px;
+}
+
+.copy {
+    text-align: center;
+    color: #ffffff;
+    font-size: 15px;
+}
+
+.copy a, .copy a:visited, .copy a:active {
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.copy .heart{
+    color: #ff0000
 }
 
 .key, .switch{    
