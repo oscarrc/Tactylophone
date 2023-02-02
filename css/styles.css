@@ -47,17 +47,93 @@ body{
     background-color: #1A1A1A;
 }
 
+@-webkit-keyframes animate-stroke {
+    0% {
+      stroke-dashoffset: 21002.416015625px;
+      stroke-dasharray: 21002.416015625px;
+    }
+  
+    100% {
+      stroke-dashoffset: 0;
+      stroke-dasharray: 21002.416015625px;
+    }
+}
+  
+@keyframes animate-stroke {
+    0% {
+      stroke-dashoffset: 21002.416015625px;
+      stroke-dasharray: 21002.416015625px;
+    }
+  
+    100% {
+      stroke-dashoffset: 0;
+      stroke-dasharray: 21002.416015625px;
+    }
+}
+  
+@-webkit-keyframes animate-fill {
+    0% {
+      fill: transparent;
+    }
+  
+    100% {
+      fill: rgb(255, 255, 255);
+    }
+}
+  
+@keyframes animate-fill {
+    0% {
+      fill: transparent;
+    }
+  
+    100% {
+      fill: rgb(255, 255, 255);
+    }
+}
+
+#loader{
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    padding: 0 12.5%;
+    height: 100dvh;
+    width: 100dvw;
+    margin: 0 auto;
+    background-color: #1A1A1A;
+    transition-property: opacity;
+    transition-duration: 500ms;
+    transition-delay: 2000ms;
+    transition-timing-function: ease-in-out;
+    z-index: 10
+}
+
+#loader svg{  
+    width: 75%;  
+    fill: #fff;
+    stroke: #fff;    
+    -webkit-animation: animate-stroke 1s cubic-bezier(0.47, 0, 0.745, 0.715) 0s both,
+                    animate-fill 0.7s cubic-bezier(0.47, 0, 0.745, 0.715) 0.8s both;
+    animation: animate-stroke 1s cubic-bezier(0.47, 0, 0.745, 0.715) 0s both,
+        animate-fill 0.7s cubic-bezier(0.47, 0, 0.745, 0.715) 0.8s both;
+}
+
 main {
     position: relative;
     display: flex;
     gap: 5px;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
     height: 100dvh;
     width: 100dvw;
     background-color: #1A1A1A;
-    transition: all 100ms ease-in
+    transition-property: opacity;
+    transition-duration: 500ms;
+    transition-delay: 2000ms;
+    transition-timing-function: ease-in-out;
 }
 
 @media screen and (min-width: 320px) and (max-width: 767px) and (orientation: portrait){
@@ -75,12 +151,17 @@ main {
 
 .wrapper {
     min-width: 75%;
+    display: flex;
+    align-items: center;
 }
 
 .message{
     display: none;
     text-align: center;
-    color: white
+    color: white;
+    font-weight: bold;
+    font-size: 30px;
+    padding: 25px 0;
 }
 
 @media screen and (max-width: 319px){
@@ -119,8 +200,8 @@ main {
     position: absolute;
     top: 0;
     right: 0;
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     background-color: #424242;
     cursor: pointer;
     clip-path: polygon(0 0, 100% 0, 100% 100%);
@@ -131,8 +212,8 @@ main {
     height: 25px;
     display: block;
     position: absolute;
-    left: 24px;
-    top: 3px;
+    left: 30px;
+    top: 6px;
     fill: #ffffff;
 }
 
@@ -140,8 +221,8 @@ main {
     position: absolute;
     bottom: 0;
     right: 0;
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     background-color: #a1a10c;
     cursor: pointer;
     clip-path: polygon(100% 0, 100% 100%, 0% 100%);
@@ -152,8 +233,8 @@ main {
     height: 25px;
     display: block;
     position: absolute;
-    left: 24px;
-    bottom: 3px;
+    left: 30px;
+    bottom: 5px;
     fill: #000000;
 }
 

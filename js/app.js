@@ -5,7 +5,6 @@ let power = false;
 let tuning = 1;
 let active = false;
 let element = null;
-let fullscreen = false;
 
 const IS_APP = document.referrer.includes('android-app://me.oscarrc.tactylophone.twa');
 const IS_TIME = Date.now > 1677693749000;
@@ -169,29 +168,37 @@ const setSwitchEventListeners = () => {
 
 const requestFullScreen = () => {
     const elem = document.documentElement;
-    const fullscreenable = elem.clientWidth > elem.clientHeight ? elem.clientWidth < 767 : elem.clientHeight < 767
+    const portrait = window.matchMedia("(orientation: portrait)");
+    const fullscreenable = portrait.matches ? elem.clientWidth < 767 : elem.clientHeight < 760;
     
-    if(IS_APP || !fullscreenable ) return;
+    if(IS_APP || !fullscreenable) return;
     
     if (elem.requestFullscreen) elem.requestFullscreen();
     else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
     else if (elem.msRequestFullscreen)  elem.msRequestFullscreen();
-    
-    fullscreen = true;
 }
 
-
 const setFullScreenEventListener = () => {
-    if(fullscreen){
-        document.removeEventListener("click", requestFullScreen);
-        document.removeEventListener("touchstart", requestFullScreen);
-    }else{
-        document.addEventListener("click", requestFullScreen);
-        document.addEventListener("touchstart", requestFullScreen);
-    }
+    document.addEventListener("click", requestFullScreen);
+    document.addEventListener("touchstart", requestFullScreen);
+}
+
+const handleLoader = () => {
+    const loader = document.getElementById("loader");
+    if(IS_APP) loader.remove()
+    else {
+        document.getElementById("tactylophone-logo").addEventListener("animationend", () => {
+            loader.style.opacity = 0;
+            loader.addEventListener("transitionend", () => {
+                document.getElementById("main").style.opacity = 1;
+                loader.remove();
+            })
+        }, false);
+    }    
 }
 
 const init = () => {
+    handleLoader();
     setFullScreenEventListener();
     setMouseEventListeners();
     setTouchEventListeners();
