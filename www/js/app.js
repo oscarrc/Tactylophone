@@ -95,13 +95,16 @@ const stopNote = () => {
     oscillator.disconnect();
 }
 
-const handleTouchStart = (e)=> {
+const handleTouchStart = (e)=> {    
     const touch = e.touches[0];
     const target = document.elementFromPoint(touch.pageX,touch.pageY);    
     const note = target.getAttribute("data-key");
 
     if(!note) return;    
     if(touch.identifier !== touchId && touchId !== null) return;
+        
+    e.preventDefault();
+    e.stopPropagation();
     
     playNote(note);
     touchId = touch.identifier;
@@ -114,7 +117,7 @@ const handleTouchEnd = (e) => {
     stopNote();
 }
 
-const handleTouchMove = (e) => {  
+const handleTouchMove = (e) => {
     const touch = Object.values(e.touches).filter(t => t.identifier === touchId)?.[0];
     if(!touch) return;
 
@@ -127,8 +130,10 @@ const handleTouchMove = (e) => {
         stopNote();
         return;
     };
-    
+
     e.preventDefault();
+    e.stopPropagation();
+    
     stopNote();
     playNote(note);
     
@@ -171,9 +176,9 @@ const setToggleEventListeners = () => {
 }
 
 const setTouchEventListeners = () => {
-    document.getElementById("keyboard").addEventListener("touchstart", handleTouchStart, { passive: true });
-    document.getElementById("keyboard").addEventListener("touchmove", handleTouchMove, { passive: true });
-    document.getElementById("keyboard").addEventListener("touchend", handleTouchEnd, { passive: true });
+    document.getElementById("keys").addEventListener("touchstart", handleTouchStart, { passive: true });
+    document.getElementById("keys").addEventListener("touchmove", handleTouchMove, { passive: true });
+    document.getElementById("keys").addEventListener("touchend", handleTouchEnd, { passive: true });
 }
 
 const setSwitchEventListeners = () => {
