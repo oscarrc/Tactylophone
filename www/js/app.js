@@ -171,9 +171,9 @@ const setToggleEventListeners = () => {
 }
 
 const setTouchEventListeners = () => {
-    document.getElementById("keyboard").addEventListener("touchstart", handleTouchStart, { passive: false });
-    document.getElementById("keyboard").addEventListener("touchmove", handleTouchMove, { passive: false });
-    document.getElementById("keyboard").addEventListener("touchend", handleTouchEnd, { passive: false });
+    document.getElementById("keyboard").addEventListener("touchstart", handleTouchStart, { passive: true });
+    document.getElementById("keyboard").addEventListener("touchmove", handleTouchMove, { passive: true });
+    document.getElementById("keyboard").addEventListener("touchend", handleTouchEnd, { passive: true });
 }
 
 const setSwitchEventListeners = () => {

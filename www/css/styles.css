@@ -268,7 +268,7 @@ main {
     display: flex;
     gap: 2px;
     flex-direction: column;
-    margin: 2.5px 18px;
+    margin: 4px 18px;
 }
 
 .toggle .handle{
