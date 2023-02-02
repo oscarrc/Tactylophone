@@ -94,7 +94,25 @@ const stopNote = () => {
     oscillator.disconnect();
 }
 
+const getTouchTargets = (touches) => {
+    return Object.values(touches).map( touch => {        
+        const element = document.elementFromPoint(touch.pageX, touch.pageY);
+        const note = element.getAttribute("data-key");
+
+        if(!note) return null;
+        return { element,  note }
+    }).filter( t => t !== null);
+}
+
 const handleTouchStart = (e)=> {
+    // const targets = getTouchTargets(e.touches);
+    
+    // if(!targets.length || !targets[0].note) return;
+    // else {
+    //     playNote(targets[0].note);
+    //     element = targets[0].element?.id;
+    // }
+
     const touch = e.touches[0];        
     const target = document.elementFromPoint(touch.pageX,touch.pageY);    
     const note = target.getAttribute("data-key");
@@ -106,7 +124,16 @@ const handleTouchStart = (e)=> {
     element = target?.id;
 }
 
-const handleTouchMove = (e)=> {
+const handleTouchMove = (e)=> {    
+    // const targets = getTouchTargets(e.touches);
+    
+    // if(!targets.length) return stopNote();
+    // if(targets[0].element?.id === element) return;
+    // else {
+    //     element = targets[0].element?.id;
+    //     playNote(targets[0].note);
+    // }
+
     const touch = e.touches[0];        
     const target = document.elementFromPoint(touch.pageX,touch.pageY);    
     const note = target.getAttribute("data-key");
