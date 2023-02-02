@@ -213,7 +213,7 @@ main {
 }
 
 .toggle input[value="2"]:checked ~ .handle{
-    left: 66%;
+    right: 0;
 }
 
 .tuning .dots span{
@@ -290,44 +290,3 @@ fill: #424242;
 .cls-4 {
     stroke-width: 1.5px;
 }
-
-/* .cls-1, .cls-2 {
-    fill: #ffffff;
-}
-
-.cls-3 {
-    stroke-width: 2.5px;
-}
-
-.cls-3, .cls-4 {
-    fill: none;
-    stroke: #e6e6e6;
-}
-
-.cls-5 {
-    fill: #e6e6e6;
-}
-
-.cls-5, .cls-6, .cls-7, .cls-2, .cls-8, .cls-9 {
-    stroke: #000;
-}
-
-.cls-10 {
-    stroke: #1a1a1a;
-}
-
-.cls-10, .cls-7 {
-    stroke-width: 1.02px;
-}
-
-.cls-10, .cls-8 {
-    fill: #1a1a1a;
-}
-
-.cls-8{
-    fill: #424242
-}
-
-.cls-4 {
-    stroke-width: 1.5px;
-} */

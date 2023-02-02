@@ -1,9 +1,9 @@
 let oscillator = null;
 let audioContext = null;
-let vibrato = false;
+let vibrato =  false;
 let power = false;
-let active = false;
 let tuning = 1;
+let active = false;
 let element = null;
 let fullscreen = false;
 
@@ -34,13 +34,13 @@ const frequencies = {
 }
 
 const toggleVibrato = () => {
-    vibrato = !vibrato
+    vibrato = !vibrato;
     document.getElementById("vibrato-handle").setAttribute("y", vibrato ? 308.6 : 283.6);
     document.getElementById("vibrato-switch").setAttribute("aria-checked", vibrato);
 };
 
 const togglePower = () => {
-    power = !power;    
+    power = !power;   
     document.getElementById("power-handle").setAttribute("y", power ? 308.6 : 283.6);
     document.getElementById("power-switch").setAttribute("aria-checked", power);
     
@@ -50,7 +50,7 @@ const togglePower = () => {
 
 const setTunning = (mode) => {
     if(![0.5, 1, 2].includes(mode)) return;
-    tunning = mode;
+    tuning = mode;
 }
 
 const vibratoEffect = (param) => {
@@ -174,7 +174,7 @@ const hideLinks = () => {
 
 const requestFullScreen = () => {
     const elem = document.documentElement;
-    const fullscreenable = elem.clientWidth > elem.clientHeight ? elem.clientHeight < 768 : elem.clientWidth < 768
+    const fullscreenable = elem.clientWidth > elem.clientHeight ? elem.clientHeight < 767 : elem.clientWidth < 767
     
     if(isApp || !fullscreenable ) return;
     
