@@ -125,9 +125,30 @@ main {
     height: 25px;
     display: block;
     position: absolute;
-    left: 23px;
+    left: 24px;
     top: 3px;
-    fill: white;
+    fill: #ffffff;
+}
+
+.ko-fi {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 50px;
+    height: 50px;
+    background-color: #a1a10c;
+    cursor: pointer;
+    clip-path: polygon(100% 0, 100% 100%, 0% 100%);
+}
+
+.ko-fi svg{    
+    width: 25px;
+    height: 25px;
+    display: block;
+    position: absolute;
+    left: 24px;
+    bottom: 3px;
+    fill: #000000;
 }
 
 

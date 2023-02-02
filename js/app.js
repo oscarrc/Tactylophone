@@ -169,7 +169,6 @@ const setSwitchEventListeners = () => {
 }
 
 const hideLinks = () => {
-    document.getElementById("copy").style.visibility = "hidden";
     document.getElementById("ko-fi").style.visibility = "hidden";
 }
 
