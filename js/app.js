@@ -168,11 +168,9 @@ const setSwitchEventListeners = () => {
 
 const requestFullScreen = () => {
     const elem = document.documentElement;
-    const portrait = window.matchMedia("(orientation: portrait)");
-    const fullscreenable = portrait.matches ? elem.clientWidth < 767 : elem.clientHeight < 760;
-    
-    if(IS_APP || !fullscreenable) return;
-    
+    const fullscreenable = (elem.clientHeight > elem.clientWidth ? elem.clientWidth : elem.clientHeight) < 768;
+   
+    if(IS_APP || !fullscreenable ) return;
     if (elem.requestFullscreen) elem.requestFullscreen();
     else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
     else if (elem.msRequestFullscreen)  elem.msRequestFullscreen();

@@ -123,12 +123,12 @@ body{
 main {
     position: relative;
     display: flex;
-    gap: 5px;
     flex-direction: column;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
     height: 100dvh;
     width: 100dvw;
+    overflow: hidden;
     background-color: #1A1A1A;
     transition-property: opacity;
     transition-duration: 500ms;
@@ -142,7 +142,6 @@ main {
         transform-origin: left top;
         width: 100dvh;
         height: 100dvw;
-        overflow-x: hidden;
         position: absolute;
         top: 100%;
         left: 0;
@@ -151,8 +150,6 @@ main {
 
 .wrapper {
     min-width: 75%;
-    display: flex;
-    align-items: center;
 }
 
 .message{
@@ -309,10 +306,20 @@ main {
    height: 4px;
 }
 
-.copy {
+/* .copy {
     text-align: center;
     color: #ffffff;
     font-size: 15px;
+    margin: 10px auto;
+} */
+
+.copy {
+    text-align: right;
+    color: #ffffff;
+    font-size: 10px;
+    background-color: #1a1a1a;
+    height: 100%;
+    padding: 8px;
 }
 
 .copy a, .copy a:visited, .copy a:active {
