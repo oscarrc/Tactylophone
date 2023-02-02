@@ -43,6 +43,10 @@ table {
 	border-spacing: 0;
 }
 
+body{    
+    background-color: #1A1A1A;
+}
+
 main {
     position: relative;
     display: flex;
@@ -53,6 +57,7 @@ main {
     height: 100dvh;
     width: 100dvw;
     background-color: #1A1A1A;
+    transition: all 100ms ease-in
 }
 
 @media screen and (min-width: 320px) and (max-width: 767px) and (orientation: portrait){
@@ -176,7 +181,7 @@ main {
 
 .toggle {
     position: relative;
-    border: 1px solid #424242;
+    background-color: #1A1A1A;
     display: flex;
     justify-content: center;
 }
