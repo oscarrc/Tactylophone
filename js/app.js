@@ -7,10 +7,9 @@ let active = false;
 let element = null;
 let fullscreen = false;
 
-const isApp = document.referrer.includes('android-app://me.oscarrc.tactylophone.twa');
-const isTime = Date.now > 1677693749000;
-
-const frequencies = {
+const IS_APP = document.referrer.includes('android-app://me.oscarrc.tactylophone.twa');
+const IS_TIME = Date.now > 1677693749000;
+const FREQUENCIES = {
     "1": 110,
     "1.5": 116.54,
     "2": 123.47,
@@ -71,7 +70,7 @@ const playNote = (note) => {
     if(!power) return;
     else if(!audioContext) audioContext = new AudioContext();
     
-    const freq = frequencies[note];
+    const freq = FREQUENCIES[note];
     const osc = audioContext.createOscillator();
     const envelope = audioContext.createGain();
     
@@ -176,7 +175,7 @@ const requestFullScreen = () => {
     const elem = document.documentElement;
     const fullscreenable = elem.clientWidth > elem.clientHeight ? elem.clientWidth < 767 : elem.clientHeight < 767
     
-    if(isApp || !fullscreenable ) return;
+    if(IS_APP || !fullscreenable ) return;
     
     if (elem.requestFullscreen) elem.requestFullscreen();
     else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
@@ -204,6 +203,6 @@ const init = () => {
     setToggleEventListeners();    
 }
 
-if(isApp && !isTime) hideLinks();
+if(IS_APP && !IS_TIME) hideLinks();
 if ('serviceWorker' in navigator) navigator.serviceWorker.register("worker.js", { scope: '/' });
 document.addEventListener("DOMContentLoaded", init);
