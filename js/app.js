@@ -167,10 +167,6 @@ const setSwitchEventListeners = () => {
     document.getElementById("vibrato-switch").addEventListener("click", toggleVibrato);
 }
 
-const hideLinks = () => {
-    document.getElementById("ko-fi").style.visibility = "hidden";
-}
-
 const requestFullScreen = () => {
     const elem = document.documentElement;
     const fullscreenable = elem.clientWidth > elem.clientHeight ? elem.clientWidth < 767 : elem.clientHeight < 767
@@ -203,6 +199,6 @@ const init = () => {
     setToggleEventListeners();    
 }
 
-if(IS_APP && !IS_TIME) hideLinks();
+if(IS_APP && !IS_TIME) document.getElementById("ko-fi").style.visibility = "hidden";;
 if ('serviceWorker' in navigator) navigator.serviceWorker.register("worker.js", { scope: '/' });
 document.addEventListener("DOMContentLoaded", init);
