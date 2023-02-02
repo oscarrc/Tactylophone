@@ -174,7 +174,7 @@ const hideLinks = () => {
 
 const requestFullScreen = () => {
     const elem = document.documentElement;
-    const fullscreenable = elem.clientWidth > elem.clientHeight ? elem.clientHeight < 767 : elem.clientWidth < 767
+    const fullscreenable = elem.clientWidth > elem.clientHeight ? elem.clientWidth < 767 : elem.clientHeight < 767
     
     if(isApp || !fullscreenable ) return;
     
