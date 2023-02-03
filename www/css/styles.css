@@ -146,6 +146,10 @@ main {
         top: 100%;
         left: 0;
     }
+
+    .fab svg {
+        transform: rotate(90deg);
+    }
 }
 
 .fab {
@@ -230,7 +234,7 @@ main {
     position: absolute;
     right: 100%;
     white-space: nowrap;
-    transition: all 250ms ease-in-out;
+    transition: opacity 250ms ease-in-out;
   }
   
   [data-tooltip]:hover:before,
