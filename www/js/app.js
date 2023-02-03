@@ -6,6 +6,7 @@ let tuning = 1;
 let active = false;
 let keyId = null;
 let touchId = null;
+let pwa = null;
 
 const IS_APP = document.referrer.includes('android-app://me.oscarrc.tactylophone.twa');
 const IS_APPROVED = false;
@@ -125,11 +126,11 @@ const handleTouchMove = (e) => {
     const note = target.getAttribute("data-key");
     
     if(target?.id === keyId) return;
-    if(!note){
-        touchId = null;
-        stopNote();
-        return;
-    };
+    // if(!note){
+    //     touchId = null;
+    //     stopNote();
+    //     return;
+    // };
 
     e.preventDefault();
     e.stopPropagation();
@@ -200,12 +201,27 @@ const handleLoader = () => {
     }    
 }
 
+const handlePWA = () => {
+    document.getElementById("pwa").style.display = "none";    
+    window.addEventListener("beforeinstallprompt", (e) => {
+        document.getElementById("pwa").style.display = "flex";
+        pwa = e
+    });
+}
+
+const promptPWA = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    pwa && pwa.prompt();
+}
+
 const init = () => {
+    handlePWA();
     handleLoader();
     setMouseEventListeners();
     setTouchEventListeners();
     setSwitchEventListeners();
-    setToggleEventListeners();    
+    setToggleEventListeners();
 }
 
 if(IS_APP){
@@ -213,5 +229,5 @@ if(IS_APP){
     !IS_APPROVED && document.getElementById("ko-fi").remove();
 }
 
-if ('serviceWorker' in navigator) navigator.serviceWorker.register("worker.js", { scope: '/' });
+navigator.serviceWorker.register("worker.js", { scope: '/' });
 document.addEventListener("DOMContentLoaded", init);
