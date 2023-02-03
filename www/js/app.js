@@ -225,4 +225,8 @@ if(IS_APP){
 }
 
 navigator.serviceWorker.register("worker.js", { scope: '/' });
+window.addEventListener("blur", () => { 
+    active = false; 
+    stopNote(); 
+});
 document.addEventListener("DOMContentLoaded", init);
