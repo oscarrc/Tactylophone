@@ -8,7 +8,7 @@ let keyId = null;
 let touchId = null;
 
 const IS_APP = document.referrer.includes('android-app://me.oscarrc.tactylophone.twa');
-const IS_TIME = Date.now > 1677693749000;
+const IS_APPROVED = false;
 const FREQUENCIES = {
     "1": 110,
     "1.5": 116.54,
@@ -208,6 +208,10 @@ const init = () => {
     setToggleEventListeners();    
 }
 
-if(IS_APP && !IS_TIME) document.getElementById("ko-fi").style.visibility = "hidden";
+if(IS_APP){
+    document.getElementById("google-play").remove();
+    !IS_APPROVED && document.getElementById("ko-fi").remove();
+}
+
 if ('serviceWorker' in navigator) navigator.serviceWorker.register("worker.js", { scope: '/' });
 document.addEventListener("DOMContentLoaded", init);
