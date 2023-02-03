@@ -126,12 +126,7 @@ const handleTouchMove = (e) => {
     const note = target.getAttribute("data-key");
     
     if(target?.id === keyId) return;
-    // if(!note){
-    //     touchId = null;
-    //     stopNote();
-    //     return;
-    // };
-
+    
     e.preventDefault();
     e.stopPropagation();
     
@@ -225,7 +220,7 @@ const init = () => {
 }
 
 if(IS_APP){
-    document.getElementById("google-play").remove();
+    document.getElementById("pwa").remove();
     !IS_APPROVED && document.getElementById("ko-fi").remove();
 }
 
