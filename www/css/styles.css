@@ -1,3 +1,5 @@
+/* RESET */
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -18,7 +20,7 @@ time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
 }
-/* HTML5 display-role reset for older browsers */
+
 article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section {
 	display: block;
@@ -45,6 +47,37 @@ table {
 
 body{    
     background-color: #1A1A1A;
+}
+
+/* LOADER AND ANDIMATION */
+
+#loader{
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    padding: 0 12.5%;
+    height: 100dvh;
+    width: 100dvw;
+    margin: 0 auto;
+    background-color: #1A1A1A;
+    transition-property: opacity;
+    transition-duration: 500ms;
+    transition-delay: 2000ms;
+    transition-timing-function: ease-in-out;
+    z-index: 10
+}
+
+#loader svg{  
+    width: 75%;  
+    fill: #fff;
+    stroke: #fff;    
+    -webkit-animation: animate-stroke 1s cubic-bezier(0.47, 0, 0.745, 0.715) 0s both,
+                    animate-fill 0.7s cubic-bezier(0.47, 0, 0.745, 0.715) 0.8s both;
+    animation: animate-stroke 1s cubic-bezier(0.47, 0, 0.745, 0.715) 0s both,
+        animate-fill 0.7s cubic-bezier(0.47, 0, 0.745, 0.715) 0.8s both;
 }
 
 @-webkit-keyframes animate-stroke {
@@ -91,34 +124,7 @@ body{
     }
 }
 
-#loader{
-    position: fixed;
-    top: 0;
-    left: 0;
-    display: flex;
-    align-items: center;
-    justify-items: center;
-    padding: 0 12.5%;
-    height: 100dvh;
-    width: 100dvw;
-    margin: 0 auto;
-    background-color: #1A1A1A;
-    transition-property: opacity;
-    transition-duration: 500ms;
-    transition-delay: 2000ms;
-    transition-timing-function: ease-in-out;
-    z-index: 10
-}
-
-#loader svg{  
-    width: 75%;  
-    fill: #fff;
-    stroke: #fff;    
-    -webkit-animation: animate-stroke 1s cubic-bezier(0.47, 0, 0.745, 0.715) 0s both,
-                    animate-fill 0.7s cubic-bezier(0.47, 0, 0.745, 0.715) 0.8s both;
-    animation: animate-stroke 1s cubic-bezier(0.47, 0, 0.745, 0.715) 0s both,
-        animate-fill 0.7s cubic-bezier(0.47, 0, 0.745, 0.715) 0.8s both;
-}
+/* MAIN CONTAINER */
 
 main {
     position: relative;
@@ -136,22 +142,7 @@ main {
     transition-timing-function: ease-in-out;
 }
 
-@media screen and (min-width: 320px) and (max-width: 767px) and (orientation: portrait){
-    main {
-        transform: rotate(-90deg);
-        transform-origin: left top;
-        width: 100dvh;
-        height: 100dvw;
-        position: absolute;
-        top: 100%;
-        left: 0;
-    }
-
-    .fab svg {
-        transform: rotate(90deg);
-    }
-}
-
+/* Fab button */
 .fab {
     position: fixed;
     display: flex;
@@ -218,6 +209,29 @@ main {
     transform: scale(0.9)
 }
 
+@media screen and (min-width: 320px) and (max-width: 767px) and (orientation: portrait){
+    main {
+        transform: rotate(-90deg);
+        transform-origin: left top;
+        width: 100dvh;
+        height: 100dvw;
+        position: absolute;
+        top: 100%;
+        left: 0;
+    }
+
+    .fab {
+        left: 20px;
+        right: auto;
+    }
+
+    .fab svg {
+        transform: rotate(90deg);
+    }
+}
+
+/* TOOLTIPS */
+
 [data-tooltip]:before {
     font-weight: 600;
     -webkit-border-radius: 2px;
@@ -241,11 +255,15 @@ main {
   [data-tooltip]:hover:after {
     visibility: visible;
     opacity: 1;
-  }
+}
+
+/* Tactylophone wrapper */
 
 .wrapper {
     min-width: 75%;
 }
+
+/* Small screen message */
 
 .message{
     display: none;
@@ -265,6 +283,8 @@ main {
         display: block;
     }
 }
+
+/* TACTYLOPHONE */
 
 .stylus div:first-child{
     background-color: #000000;
@@ -287,6 +307,8 @@ main {
     color: #ffffff;
     text-decoration: none;
 }
+
+/* Tuning switch */
 
 .tuning {   
     font-size: 6px;
