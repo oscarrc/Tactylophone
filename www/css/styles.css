@@ -148,6 +148,97 @@ main {
     }
 }
 
+.fab {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-direction: column-reverse;
+    bottom: 20px;
+    right: 20px;
+}
+
+.fab .fab-button{
+    width: 50px;
+    height: 50px;
+    background: #e6e6e6;
+    border-radius: 100%;
+    border: none;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 500ms ease-in-out
+}
+
+.fab .fab-item{
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 100%;
+    cursor: pointer;
+    background-color: #424242;
+    color: #ffffff;
+    transition-property: transform;
+    transition-duration: 300ms;
+    z-index: 0;
+}
+
+.fab .fab-button:focus ~ .fab-item{
+    transform:  translateY(0);
+}
+
+.fab .fab-item:nth-child(2){
+    transform: translateY(calc(100% + 15px));
+    transition-delay: 20ms;
+}
+
+.fab .fab-item:nth-child(3){
+    transform: translateY(calc(100% + 65px));
+    transition-delay: 40ms;
+}
+
+.fab .fab-item:nth-child(4){
+    transform: translateY(calc(100% + 115px));
+    transition-delay: 80ms;
+}
+
+.fab .fab-item:nth-child(5){
+    transform: translateY(calc(100% + 165px));
+    transition-delay: 100ms;
+}
+
+.fab .fab-button:active, .fab .fab-item:active{
+    transform: scale(0.9)
+}
+
+[data-tooltip]:before {
+    font-weight: 600;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    background-color: #424242;
+    color: #fff;
+    content: attr(data-tooltip);
+    font-size: 12px;
+    visibility: hidden;
+    opacity: 0;
+    padding: 5px 7px;
+    margin-right: 10px;
+    position: absolute;
+    right: 100%;
+    white-space: nowrap;
+    transition: all 250ms ease-in-out;
+  }
+  
+  [data-tooltip]:hover:before,
+  [data-tooltip]:hover:after {
+    visibility: visible;
+    opacity: 1;
+  }
+
 .wrapper {
     min-width: 75%;
 }
@@ -193,60 +284,17 @@ main {
     text-decoration: none;
 }
 
-.github {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 60px;
-    height: 60px;
-    background-color: #424242;
-    cursor: pointer;
-    clip-path: polygon(0 0, 100% 0, 100% 100%);
-}
-
-.github svg{    
-    width: 25px;
-    height: 25px;
-    display: block;
-    position: absolute;
-    left: 30px;
-    top: 6px;
-    fill: #ffffff;
-}
-
-.ko-fi {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 60px;
-    height: 60px;
-    background-color: #a1a10c;
-    cursor: pointer;
-    clip-path: polygon(100% 0, 100% 100%, 0% 100%);
-}
-
-.ko-fi svg{    
-    width: 25px;
-    height: 25px;
-    display: block;
-    position: absolute;
-    left: 30px;
-    bottom: 5px;
-    fill: #000000;
-}
-
-
 .tuning {   
     font-size: 6px;
     background-color: #000000;
     color: #ffffff;
 }
 
-.tuning .dots, .tuning .numbers {
-    display: flex;
-    flex: 1;
-    justify-content: space-between;
-    align-items: center;
+.tuning .dots span{
+    background-color: #ffffff;
+    border-radius: 100%;
+    width: 4px;
+    height: 4px;
 }
 
 .tuning .dots span:first-child{
@@ -255,6 +303,13 @@ main {
 
 .tuning .dots span:last-child{
     justify-self: flex-end;
+}
+
+.tuning .dots, .tuning .numbers {
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .toggle {
@@ -298,20 +353,6 @@ main {
 .toggle input[value="2"]:checked ~ .handle{
     right: 0;
 }
-
-.tuning .dots span{
-   background-color: #ffffff;
-   border-radius: 100%;
-   width: 4px;
-   height: 4px;
-}
-
-/* .copy {
-    text-align: center;
-    color: #ffffff;
-    font-size: 15px;
-    margin: 10px auto;
-} */
 
 .copy {
     text-align: right;
