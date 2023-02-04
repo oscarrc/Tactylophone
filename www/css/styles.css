@@ -214,6 +214,11 @@ main {
     transition-delay: 100ms;
 }
 
+.fab .fab-item:nth-child(6){
+    transform: translateY(calc(100% + 215px));
+    transition-delay: 100ms;
+}
+
 .fab .fab-button:active, .fab .fab-item:active{
     transform: scale(0.9)
 }
