@@ -232,6 +232,7 @@ const handlePWA = () => {
     
     window.addEventListener("beforeinstallprompt", (e) => {
         document.getElementById("fab-more").append(pwaIcon);
+        pwaIcon.addEventListener("click", promptPWA)
         pwa = e
     });
 }
