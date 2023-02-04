@@ -138,8 +138,8 @@ const handleTouchMove = (e) => {
 
 const mouseEventListeners = {
     mousedown: (e) => {
-        active = true;
         const note = e.target.getAttribute("data-key");
+        active = true;
         playNote(note);
     },
     mouseup: () => {
@@ -184,7 +184,7 @@ const setSwitchEventListeners = () => {
 
 const handleLoader = () => {
     const loader = document.getElementById("loader");
-    if(IS_APP) loader.remove()
+    if(IS_APP) loader.remove();
     else {
         document.getElementById("tactylophone-logo").addEventListener("animationend", () => {
             loader.style.opacity = 0;
