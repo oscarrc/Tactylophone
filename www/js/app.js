@@ -185,16 +185,22 @@ const setSwitchEventListeners = () => {
 
 const handleLoader = () => {
     const loader = document.getElementById("loader");
-    if(IS_APP || IS_PWA) loader.remove();
-    else {
+
+    if(IS_APP || IS_PWA){
+        loader.remove();
+        loader = null;
+    } else {
         document.getElementById("tactylophone-logo").addEventListener("animationend", () => {
             loader.style.opacity = 0;
             loader.addEventListener("transitionend", () => {
                 document.getElementById("main").style.opacity = 1;
                 loader.remove();
+                loader = null;
             })
         }, false);
-    }    
+    }
+        
+    if(loader) setTimeout(() => loader.remove(), 2500)
 }
 
 const requestFullscreen = () => {
@@ -222,9 +228,9 @@ const requestFullscreen = () => {
 }
 
 const handleFullscreen = () => {
-    const fullscreenIcon = document.getElementById("fullscreen");
-    if(IS_APP || IS_PWA) fullscreenIcon.remove();
-    else fullscreenIcon.addEventListener("click", requestFullscreen);
+    const fullscreenButton = document.getElementById("fullscreen");
+    if(IS_APP || IS_PWA) fullscreenButton.remove();
+    else fullscreenButton.addEventListener("click", requestFullscreen);
 }
 
 const handlePWA = () => {

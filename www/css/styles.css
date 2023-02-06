@@ -67,7 +67,7 @@ body{
     transition-duration: 500ms;
     transition-delay: 2000ms;
     transition-timing-function: ease-in-out;
-    z-index: 10
+    z-index: 10;
 }
 
 #loader svg{  
