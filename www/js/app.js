@@ -44,7 +44,7 @@ const togglePower = () => {
     power = !power;   
     document.getElementById("power-handle").setAttribute("y", power ? 308.6 : 283.6);
     document.getElementById("power-switch").setAttribute("aria-checked", power);
-    
+   
     if(!power) audioContext = null;
     else if(power && !audioContext) audioContext = new AudioContext();
 };
