@@ -185,22 +185,27 @@ const setSwitchEventListeners = () => {
 
 const handleLoader = () => {
     const loader = document.getElementById("loader");
-
-    if(IS_APP || IS_PWA){
-        loader.remove();
-        loader = null;
-    } else {
-        document.getElementById("tactylophone-logo").addEventListener("animationend", () => {
+    const logo = document.getElementById("tactylophone-logo");
+    
+    if(IS_APP || IS_PWA) return loader.remove();
+    
+    if("onanimationend" in logo){
+        logo.addEventListener("animationend", () => {
             loader.style.opacity = 0;
-            loader.addEventListener("transitionend", () => {
+
+            if("ontransitionend" in loader){ 
+                loader.addEventListener("transitionend", () => {
+                    document.getElementById("main").style.opacity = 1;
+                    loader.remove();
+                })     
+            }else{
                 document.getElementById("main").style.opacity = 1;
                 loader.remove();
-                loader = null;
-            })
+            }           
         }, false);
+    }else{
+        loader.remove();
     }
-        
-    if(loader) setTimeout(() => loader.remove(), 2500)
 }
 
 const requestFullscreen = () => {
