@@ -9,6 +9,7 @@ let touchId = null;
 let pwa = null;
 
 const IS_APP = document.referrer.includes('android-app://me.oscarrc.tactylophone.twa');
+const IS_PWA = window.matchMedia('(display-mode: fullscreen)').matches;
 const IS_APPROVED = false;
 const FREQUENCIES = {
     "1": 110,
@@ -184,7 +185,7 @@ const setSwitchEventListeners = () => {
 
 const handleLoader = () => {
     const loader = document.getElementById("loader");
-    if(IS_APP) loader.remove();
+    if(IS_APP || IS_PWA) loader.remove();
     else {
         document.getElementById("tactylophone-logo").addEventListener("animationend", () => {
             loader.style.opacity = 0;
@@ -222,13 +223,13 @@ const requestFullscreen = () => {
 
 const handleFullscreen = () => {
     const fullscreenIcon = document.getElementById("fullscreen");
-    if(IS_APP) fullscreenIcon.remove();
+    if(IS_APP || IS_PWA) fullscreenIcon.remove();
     else fullscreenIcon.addEventListener("click", requestFullscreen);
 }
 
 const handlePWA = () => {
     const pwaIcon = document.getElementById("pwa");
-    pwaIcon.remove();
+    if(IS_APP || IS_PWA) pwaIcon.remove();
     
     window.addEventListener("beforeinstallprompt", (e) => {
         document.getElementById("fab-more").append(pwaIcon);
@@ -253,10 +254,7 @@ const init = () => {
     setToggleEventListeners();
 }
 
-if(IS_APP){
-    document.getElementById("pwa").remove();
-    !IS_APPROVED && document.getElementById("ko-fi").remove();
-}
+if(IS_APP && !IS_APPROVED ) document.getElementById("ko-fi").remove();
 
 navigator.serviceWorker.register("worker.js", { scope: '/' });
 window.addEventListener("blur", () => { 
