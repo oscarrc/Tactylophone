@@ -102,10 +102,8 @@ const handleTouchStart = (e)=> {
     const target = document.elementFromPoint(touch.pageX,touch.pageY);    
     const note = target.getAttribute("data-key");
 
+    if(!note) return;
     if(touch.identifier !== touchId && touchId !== null) return;
-        
-    e.preventDefault();
-    e.stopPropagation();
         
     playNote(note);
     touchId = touch.identifier;
@@ -126,10 +124,7 @@ const handleTouchMove = (e) => {
     const note = target.getAttribute("data-key");
     
     if(target?.id === keyId) return;
-    
-    e.preventDefault();
-    e.stopPropagation();
-    
+        
     stopNote();
     playNote(note);
     
@@ -172,9 +167,9 @@ const setToggleEventListeners = () => {
 }
 
 const setTouchEventListeners = () => {
-    document.getElementById("keys").addEventListener("touchstart", handleTouchStart, { passive: true });
-    document.getElementById("keys").addEventListener("touchmove", handleTouchMove, { passive: true });
-    document.getElementById("keys").addEventListener("touchend", handleTouchEnd, { passive: true });
+    document.getElementById("keyboard").addEventListener("touchstart", handleTouchStart, { passive: true });
+    document.getElementById("keyboard").addEventListener("touchmove", handleTouchMove, { passive: true });
+    document.getElementById("keyboard").addEventListener("touchend", handleTouchEnd, { passive: true });
 }
 
 const setSwitchEventListeners = () => {
