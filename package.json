@@ -17,7 +17,7 @@
     "deploy": "surge www tactylophone.oscarrc.me",
     "init": "bubblewrap init --manifest https://tactylophone.oscarrc.me/manifest.json --directory android/",
     "build": "cd android && bubblewrap build",
-    "update": "bubblewrap update --appVersionName 3 --manifest https://nts-web.oscarrc.me/manifest.json"
+    "update": "bubblewrap update --appVersionName 1 --manifest https://nts-web.oscarrc.me/manifest.json"
   },
   "dependencies": {
     "bubblewrap": "^0.2.0"
