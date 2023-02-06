@@ -102,12 +102,11 @@ const handleTouchStart = (e)=> {
     const target = document.elementFromPoint(touch.pageX,touch.pageY);    
     const note = target.getAttribute("data-key");
 
-    if(!note) return;    
     if(touch.identifier !== touchId && touchId !== null) return;
         
     e.preventDefault();
     e.stopPropagation();
-    
+        
     playNote(note);
     touchId = touch.identifier;
     keyId = target?.id;
