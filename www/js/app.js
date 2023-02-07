@@ -1,5 +1,6 @@
-let oscillator = null;
 let audioContext = null;
+let mainOsc = null;
+let effectOsc = null;
 let vibrato =  false;
 let power = false;
 let tuning = 1;
@@ -34,7 +35,7 @@ const FREQUENCIES = {
     "12": 329.63
 }
 
-// OSCILLATOR
+// mainOsc
 
 // Vibrato effect
 const withVibrato = (param) => {
@@ -48,26 +49,8 @@ const withVibrato = (param) => {
 
     oscEffect.connect(envelopeEffect).connect(param);
     oscEffect.start();
-}
-
-// Main oscilator
-const oscInit = () => {    
-    if(!audioContext) audioContext = new AudioContext();
-    const osc = audioContext.createOscillator();
-    const envelope = audioContext.createGain();
     
-    if(oscillator) oscillator.disconnect();
-
-    osc.type = "square";
-    osc.frequency.value = freq * tuning;
-    envelope.gain.value = 0.3;
-
-    osc.connect(envelope);
-    envelope.connect(audioContext.destination);        
-    
-    oscillator = osc;
-
-    osc.start();
+    effectOsc = oscEffect;
 }
 
 const oscPlay = (note) => {
@@ -79,26 +62,25 @@ const oscPlay = (note) => {
     const osc = audioContext.createOscillator();
     const envelope = audioContext.createGain();
     
-    if(oscillator) oscillator.disconnect();
+    if(mainOsc) mainOsc.disconnect();
 
     osc.type = "square";
     osc.frequency.value = freq * tuning;
     envelope.gain.value = 0.3;
 
     osc.connect(envelope);
-    envelope.connect(audioContext.destination);        
-    
-    oscillator = osc;
-
+    envelope.connect(audioContext.destination);
     osc.start();
+    
+    mainOsc = osc;
     vibrato && withVibrato(osc.frequency)
 }
 
-// Stop oscillator
+// Stop mainOsc
 const oscStop = () => {
-    if(!oscillator) return;
-    oscillator.stop();
-    oscillator.disconnect();
+    if(!mainOsc) return;
+    mainOsc.stop();
+    mainOsc.disconnect();
 }
 
 // KEYBOARD AN KEY EVENT HANDLERS
@@ -203,7 +185,7 @@ const setTuning = (e) => {
     }
     
     if(!modes.includes(mode)) return;
-    if(oscillator) oscillator.frequency.value = (oscillator.frequency.value / tuning) * mode;
+    if(mainOsc) mainOsc.frequency.value = (mainOsc.frequency.value / tuning) * mode;
     
     tuning = mode;
 }
@@ -219,9 +201,9 @@ const setSwitchListeners = () => {
 // Vibrato toggle setter
 const toggleVibrato = (e) => {    
     if (e.type === "touchstart") e.preventDefault();
-    if(!vibrato && oscillator) withVibrato(oscillator.frequency)
+    if(!vibrato && effectOsc) effectOsc.stop();
 
-    vibrato = !vibrato;    
+    vibrato = !vibrato;
     document.getElementById("vibrato-handle").setAttribute("y", vibrato ? 308.6 : 283.6);
     document.getElementById("vibrato-switch").setAttribute("aria-checked", vibrato);
 };
