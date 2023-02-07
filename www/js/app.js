@@ -39,7 +39,7 @@ const FREQUENCIES = {
 // Vibrato effect
 const withVibrato = (param) => {
     if(!audioContext || !power) return;
-
+    
     const oscEffect = audioContext.createOscillator();
     const envelopeEffect = audioContext.createGain();
     
@@ -170,13 +170,22 @@ const setToggleListeners = () => {
 
 // Tuning setter
 const setTuning = (e) => {
+    const modes = [0.5, 1, 2];
+    let mode = parseFloat(e.target.value);
+
     if(e.type === "touchstart"){
         e.preventDefault();
         e.target.checked = true;
     };
+
+    if(e.type === "keydown"){
+        mode = modes[e.key - 1];
+        document.querySelector(`.toggle-value[value='${mode}']`).checked = true;
+    }
     
-    const mode = parseFloat(e.target.value);
-    if(![0.5, 1, 2].includes(mode)) return;
+    if(!modes.includes(mode)) return;
+    if(oscillator) oscillator.frequency.value = (oscillator.frequency.value / tuning) * mode;
+    
     tuning = mode;
 }
 
@@ -188,13 +197,12 @@ const setSwitchListeners = () => {
     document.getElementById("vibrato-switch").addEventListener("touchstart", toggleVibrato, { passive: false });
 }
 
-
 // Vibrato toggle setter
 const toggleVibrato = (e) => {    
     if (e.type === "touchstart") e.preventDefault();
+    if(!vibrato && oscillator) withVibrato(oscillator.frequency)
 
-    vibrato = !vibrato;
-    
+    vibrato = !vibrato;    
     document.getElementById("vibrato-handle").setAttribute("y", vibrato ? 308.6 : 283.6);
     document.getElementById("vibrato-switch").setAttribute("aria-checked", vibrato);
 };
@@ -213,6 +221,23 @@ const togglePower = (e) => {
         oscStop();
     }else if(power && !audioContext) audioContext = new AudioContext();
 };
+
+// Keyboard bindinds
+const keyboardBindigs = {
+    "v": toggleVibrato,
+    "p": togglePower,
+    1 : setTuning,
+    2 : setTuning,
+    3 : setTuning
+}
+
+const setKeyboardBindings = () => {
+    document.addEventListener("keydown", (e) => {
+        const lowercaseKey = e.key.toLowerCase();
+        if(!Object.keys(keyboardBindigs).includes(lowercaseKey)) return;
+        keyboardBindigs[lowercaseKey](e);
+    })
+}
 
 // UI
 
@@ -305,6 +330,7 @@ const init = () => {
     setKeyTouchListeners();
     setSwitchListeners();
     setToggleListeners();
+    setKeyboardBindings();
 }
 
 if(IS_APP && !IS_APPROVED ) document.getElementById("ko-fi").remove();
