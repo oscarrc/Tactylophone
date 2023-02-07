@@ -41,9 +41,9 @@ const withVibrato = (param) => {
     if(!audioContext || !power) return;
 
     const oscEffect = audioContext.createOscillator();
-    oscEffect.frequency.value = 5
-
     const envelopeEffect = audioContext.createGain();
+    
+    oscEffect.frequency.value = 5
     envelopeEffect.gain.value = 5;
 
     oscEffect.connect(envelopeEffect).connect(param);
@@ -104,7 +104,10 @@ const keyMouseEvents = {
 
 const setKeyMouseListeners = () => {
     const keys = document.getElementsByClassName("key");
+    const keyboard = document.getElementById("keys");
     
+    keyboard.addEventListener("mouseleave", () => active = false);
+
     Object.values(keys).forEach( key => {
         Object.keys(keyMouseEvents).forEach( event => {
             key.addEventListener(event, keyMouseEvents[event], { pasive: false })
@@ -156,41 +159,59 @@ const setKeyTouchListeners = () => {
 // SWITCHES AND TOGGLES
 
 // Tuning toggle
-const setToggleEventListeners = () => {
+const setToggleListeners = () => {
     const toggle = document.getElementsByClassName("toggle-value");
     
-    Object.values(toggle).forEach( value => {
-        value.addEventListener("change", () => { tuning = parseFloat(this.value) })
+    Object.values(toggle).forEach( t => {
+        t.addEventListener("touchstart", setTuning, { passive: false });
+        t.addEventListener("change", setTuning)
     })
 }
 
 // Tuning setter
-const setTunning = (mode) => {
+const setTuning = (e) => {
+    if(e.type === "touchstart"){
+        e.preventDefault();
+        e.target.checked = true;
+    };
+    
+    const mode = parseFloat(e.target.value);
     if(![0.5, 1, 2].includes(mode)) return;
     tuning = mode;
 }
 
 // Power and vibrato switcehs
-const setSwitchEventListeners = () => {
+const setSwitchListeners = () => {
     document.getElementById("power-switch").addEventListener("click", togglePower);
     document.getElementById("vibrato-switch").addEventListener("click", toggleVibrato);
+    document.getElementById("power-switch").addEventListener("touchstart", togglePower, { passive: false });
+    document.getElementById("vibrato-switch").addEventListener("touchstart", toggleVibrato, { passive: false });
 }
 
+
 // Vibrato toggle setter
-const toggleVibrato = () => {
+const toggleVibrato = (e) => {    
+    if (e.type === "touchstart") e.preventDefault();
+
     vibrato = !vibrato;
+    
     document.getElementById("vibrato-handle").setAttribute("y", vibrato ? 308.6 : 283.6);
     document.getElementById("vibrato-switch").setAttribute("aria-checked", vibrato);
 };
 
 // Power toggle setter
-const togglePower = () => {
+const togglePower = (e) => {
+    if (e.type === "touchstart") e.preventDefault();
+    
     power = !power;   
+
     document.getElementById("power-handle").setAttribute("y", power ? 308.6 : 283.6);
     document.getElementById("power-switch").setAttribute("aria-checked", power);
    
-    if(!power) audioContext = null;
-    else if(power && !audioContext) audioContext = new AudioContext();
+    if(!power){
+        audioContext = null;
+        oscStop();
+    }else if(power && !audioContext) audioContext = new AudioContext();
 };
 
 // UI
@@ -252,7 +273,8 @@ const handleFullscreen = () => {
     else fullscreenButton.addEventListener("click", requestFullscreen);
 }
 
-// PWA Handler
+
+// PWA
 
 // Store event
 const handlePWA = () => {
@@ -274,21 +296,22 @@ const promptPWA = (e) => {
 }
 
 // APP INITIALIZATION
+
 const init = () => {
     handlePWA();
     handleLoader();
     handleFullscreen();
     setKeyMouseListeners();
     setKeyTouchListeners();
-    setSwitchEventListeners();
-    setToggleEventListeners();
+    setSwitchListeners();
+    setToggleListeners();
 }
 
 if(IS_APP && !IS_APPROVED ) document.getElementById("ko-fi").remove();
 
 navigator.serviceWorker.register("worker.js", { scope: '/' });
 window.addEventListener("blur", () => { 
-    active = false; 
     oscStop(); 
+    active = false
 });
 document.addEventListener("DOMContentLoaded", init);
