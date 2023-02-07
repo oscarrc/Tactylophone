@@ -34,27 +34,10 @@ const FREQUENCIES = {
     "12": 329.63
 }
 
-const toggleVibrato = () => {
-    vibrato = !vibrato;
-    document.getElementById("vibrato-handle").setAttribute("y", vibrato ? 308.6 : 283.6);
-    document.getElementById("vibrato-switch").setAttribute("aria-checked", vibrato);
-};
+// OSCILLATOR
 
-const togglePower = () => {
-    power = !power;   
-    document.getElementById("power-handle").setAttribute("y", power ? 308.6 : 283.6);
-    document.getElementById("power-switch").setAttribute("aria-checked", power);
-   
-    if(!power) audioContext = null;
-    else if(power && !audioContext) audioContext = new AudioContext();
-};
-
-const setTunning = (mode) => {
-    if(![0.5, 1, 2].includes(mode)) return;
-    tuning = mode;
-}
-
-const vibratoEffect = (param) => {
+// Vibrato effect
+const withVibrato = (param) => {
     if(!audioContext || !power) return;
 
     const oscEffect = audioContext.createOscillator();
@@ -67,7 +50,8 @@ const vibratoEffect = (param) => {
     oscEffect.start();
 }
 
-const playNote = (note) => {
+// Main oscilator
+const oscPlay = (note) => {
     if(!note) return
     if(!power) return;
     else if(!audioContext) audioContext = new AudioContext();
@@ -88,95 +72,130 @@ const playNote = (note) => {
     oscillator = osc;
 
     osc.start();
-    vibrato && vibratoEffect(osc.frequency)
+    vibrato && withVibrato(osc.frequency)
 }
 
-const stopNote = () => {
+// Stop oscillator
+const oscStop = () => {
     if(!oscillator) return;
     oscillator.stop();
     oscillator.disconnect();
 }
 
-const handleTouchStart = (e)=> {    
-    const touch = e.touches[0];
-    const target = document.elementFromPoint(touch.pageX,touch.pageY);    
-    const note = target.getAttribute("data-key");
+// KEYBOARD AN KEY EVENT HANDLERS
 
-    if(!note) return;
-    if(touch.identifier !== touchId && touchId !== null) return;
-        
-    playNote(note);
-    touchId = touch.identifier;
-    keyId = target?.id;
-}
-
-const handleTouchEnd = (e) => {
-    if(Object.values(e.changedTouches).filter( t => t.identifier === touchId).length > 0 ) return;
-    touchId = null;
-    stopNote();
-}
-
-const handleTouchMove = (e) => {
-    const touch = Object.values(e.changedTouches).filter(t => t.identifier === touchId)?.[0];
-    if(!touch) return;
-
-    const target = document.elementFromPoint(touch.pageX,touch.pageY);
-    const note = target.getAttribute("data-key");
-    
-    if(target?.id === keyId) return;
-        
-    stopNote();
-    playNote(note);
-    
-    keyId = target?.id;
-}
-
-const mouseEventListeners = {
+// Mouse events
+const keyMouseEvents = {
     mousedown: (e) => {
         const note = e.target.getAttribute("data-key");
         active = true;
-        playNote(note);
+        oscPlay(note);
     },
     mouseup: () => {
         active = false
-        stopNote();
+        oscStop();
     },
     mouseenter: (e) => {
         const note = e.target.getAttribute("data-key");
-        active && playNote(note)
+        active && oscPlay(note)
     },
-    mouseleave: stopNote
+    mouseleave: oscStop
 }
 
-const setMouseEventListeners = () => {
+const setKeyMouseListeners = () => {
     const keys = document.getElementsByClassName("key");
     
     Object.values(keys).forEach( key => {
-        Object.keys(mouseEventListeners).forEach( event => {
-            key.addEventListener(event, mouseEventListeners[event], { pasive: false })
+        Object.keys(keyMouseEvents).forEach( event => {
+            key.addEventListener(event, keyMouseEvents[event], { pasive: false })
         })
     })
 }
 
+// Touch events
+const keyTouchEvents = {
+    touchstart: (e)=> {    
+        const touch = e.touches[0];
+        const target = document.elementFromPoint(touch.pageX,touch.pageY);    
+        const note = target.getAttribute("data-key");
+    
+        if(!note) return;
+        if(touch.identifier !== touchId && touchId !== null) return;
+            
+        oscPlay(note);
+        touchId = touch.identifier;
+        keyId = target?.id;
+    },
+    touchmove: (e) => {
+        const touch = Object.values(e.changedTouches).filter(t => t.identifier === touchId)?.[0];
+        if(!touch) return;
+    
+        const target = document.elementFromPoint(touch.pageX,touch.pageY);
+        const note = target?.getAttribute("data-key");
+        
+        if(target?.id === keyId) return;
+            
+        oscStop();
+        oscPlay(note);
+        
+        keyId = target?.id;
+    },
+    touchend: (e) => {
+        if(Object.values(e.changedTouches).filter( t => t.identifier === touchId).length === 0 ) return;
+        touchId = null;
+        oscStop();
+    }
+}
+
+const setKeyTouchListeners = () => {
+    Object.keys(keyTouchEvents).map( event => {
+        document.getElementById("keyboard").addEventListener(event, keyTouchEvents[event], { passive: true });
+    })
+}
+
+// SWITCHES AND TOGGLES
+
+// Tuning toggle
 const setToggleEventListeners = () => {
     const toggle = document.getElementsByClassName("toggle-value");
     
     Object.values(toggle).forEach( value => {
-        value.addEventListener("change", function(){tuning = parseFloat(this.value)})
+        value.addEventListener("change", () => { tuning = parseFloat(this.value) })
     })
 }
 
-const setTouchEventListeners = () => {
-    document.getElementById("keyboard").addEventListener("touchstart", handleTouchStart, { passive: true });
-    document.getElementById("keyboard").addEventListener("touchmove", handleTouchMove, { passive: true });
-    document.getElementById("keyboard").addEventListener("touchend", handleTouchEnd, { passive: true });
+// Tuning setter
+const setTunning = (mode) => {
+    if(![0.5, 1, 2].includes(mode)) return;
+    tuning = mode;
 }
 
+// Power and vibrato switcehs
 const setSwitchEventListeners = () => {
     document.getElementById("power-switch").addEventListener("click", togglePower);
     document.getElementById("vibrato-switch").addEventListener("click", toggleVibrato);
 }
 
+// Vibrato toggle setter
+const toggleVibrato = () => {
+    vibrato = !vibrato;
+    document.getElementById("vibrato-handle").setAttribute("y", vibrato ? 308.6 : 283.6);
+    document.getElementById("vibrato-switch").setAttribute("aria-checked", vibrato);
+};
+
+// Power toggle setter
+const togglePower = () => {
+    power = !power;   
+    document.getElementById("power-handle").setAttribute("y", power ? 308.6 : 283.6);
+    document.getElementById("power-switch").setAttribute("aria-checked", power);
+   
+    if(!power) audioContext = null;
+    else if(power && !audioContext) audioContext = new AudioContext();
+};
+
+// UI
+
+// Loader handler
 const handleLoader = () => {
     const loader = document.getElementById("loader");
     const logo = document.getElementById("tactylophone-logo");
@@ -202,6 +221,7 @@ const handleLoader = () => {
     }
 }
 
+// Fullscreen handler
 const requestFullscreen = () => {
     const elem = document.documentElement;
     const fullscreenButton = document.getElementById("fullscreen");
@@ -232,6 +252,9 @@ const handleFullscreen = () => {
     else fullscreenButton.addEventListener("click", requestFullscreen);
 }
 
+// PWA Handler
+
+// Store event
 const handlePWA = () => {
     const pwaIcon = document.getElementById("pwa");
     if(IS_APP || IS_PWA) pwaIcon.remove();
@@ -243,18 +266,20 @@ const handlePWA = () => {
     });
 }
 
+// Propmt install
 const promptPWA = (e) => {
     e.stopPropagation();
     e.preventDefault();
     pwa && pwa.prompt();
 }
 
+// APP INITIALIZATION
 const init = () => {
     handlePWA();
     handleLoader();
     handleFullscreen();
-    setMouseEventListeners();
-    setTouchEventListeners();
+    setKeyMouseListeners();
+    setKeyTouchListeners();
     setSwitchEventListeners();
     setToggleEventListeners();
 }
@@ -264,6 +289,6 @@ if(IS_APP && !IS_APPROVED ) document.getElementById("ko-fi").remove();
 navigator.serviceWorker.register("worker.js", { scope: '/' });
 window.addEventListener("blur", () => { 
     active = false; 
-    stopNote(); 
+    oscStop(); 
 });
 document.addEventListener("DOMContentLoaded", init);
