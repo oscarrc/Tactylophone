@@ -35,7 +35,7 @@ const FREQUENCIES = {
     "12": 329.63
 }
 
-// mainOsc
+// OSCILLATOR
 
 // Vibrato effect
 const withVibrato = (param) => {
@@ -53,6 +53,7 @@ const withVibrato = (param) => {
     effectOsc = oscEffect;
 }
 
+//mainOSC Play
 const oscPlay = (note) => {
     if(!note) return
     if(!power) return;
