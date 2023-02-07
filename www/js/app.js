@@ -111,13 +111,13 @@ const handleTouchStart = (e)=> {
 }
 
 const handleTouchEnd = (e) => {
-    if(Object.values(e.touches).filter( t => t.identifier === touchId).length > 0 ) return;
+    if(Object.values(e.changedTouches).filter( t => t.identifier === touchId).length > 0 ) return;
     touchId = null;
     stopNote();
 }
 
 const handleTouchMove = (e) => {
-    const touch = Object.values(e.touches).filter(t => t.identifier === touchId)?.[0];
+    const touch = Object.values(e.changedTouches).filter(t => t.identifier === touchId)?.[0];
     if(!touch) return;
 
     const target = document.elementFromPoint(touch.pageX,touch.pageY);
