@@ -51,10 +51,29 @@ const withVibrato = (param) => {
 }
 
 // Main oscilator
+const oscInit = () => {    
+    if(!audioContext) audioContext = new AudioContext();
+    const osc = audioContext.createOscillator();
+    const envelope = audioContext.createGain();
+    
+    if(oscillator) oscillator.disconnect();
+
+    osc.type = "square";
+    osc.frequency.value = freq * tuning;
+    envelope.gain.value = 0.3;
+
+    osc.connect(envelope);
+    envelope.connect(audioContext.destination);        
+    
+    oscillator = osc;
+
+    osc.start();
+}
+
 const oscPlay = (note) => {
     if(!note) return
     if(!power) return;
-    else if(!audioContext) audioContext = new AudioContext();
+    if(!audioContext) audioContext = new AudioContext();
     
     const freq = FREQUENCIES[note];
     const osc = audioContext.createOscillator();
