@@ -31,6 +31,10 @@ A synthetizer at your fingertips
 * Fully playable monophonic synthesizer
 * Vibrato effect
 * Three tunning modes
+* Convenient key bindigs:
+  * `p` to toggle power
+  * `v` to toggle vibrato
+  * `1`, `2` & `3` to select the tuning
 
 ### Found a bug?
 
