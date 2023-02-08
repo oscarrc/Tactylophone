@@ -122,14 +122,14 @@ const keyTouchEvents = {
     touchstart: (e)=> {    
         const touch = e.touches[0];
         const target = document.elementFromPoint(touch.pageX,touch.pageY);    
-        const note = target.getAttribute("data-key");
-    
-        if(!note) return;
+        const note = target.getAttribute("data-key");    
+        
         if(touch.identifier !== touchId && touchId !== null) return;
-            
-        oscPlay(note);
+        
         touchId = touch.identifier;
         keyId = target?.id;
+        
+        oscPlay(note);
     },
     touchmove: (e) => {
         const touch = Object.values(e.changedTouches).filter(t => t.identifier === touchId)?.[0];
@@ -137,13 +137,13 @@ const keyTouchEvents = {
     
         const target = document.elementFromPoint(touch.pageX,touch.pageY);
         const note = target?.getAttribute("data-key");
+
+        if(target?.id === keyId || target?.id == "shadow") return;
+
+        keyId = target?.id;
         
-        if(target?.id === keyId) return;
-            
         oscStop();
         oscPlay(note);
-        
-        keyId = target?.id;
     },
     touchend: (e) => {
         if(Object.values(e.changedTouches).filter( t => t.identifier === touchId).length === 0 ) return;
