@@ -138,7 +138,7 @@ const keyTouchEvents = {
         const target = document.elementFromPoint(touch.pageX,touch.pageY);
         const note = target?.getAttribute("data-key");
 
-        if(target?.id === keyId || target?.id == "shadow") return;
+        if(target?.id === keyId) return;
 
         keyId = target?.id;
         
