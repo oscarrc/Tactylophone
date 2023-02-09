@@ -31,8 +31,8 @@ const FREQUENCIES = {
 
 // OSCILLATOR
 const osc = {
-    instance: null,
     context: null,
+    instance: null,
     enabled: false,
     tuning: 1,
     vibrato: {
