@@ -178,7 +178,7 @@ const initKeyboard = () => {
 
     // Touch events
     Object.keys(keyTouchEvents).map( event => {
-        document.getElementById("keyboard").addEventListener(event, keyTouchEvents[event], { passive: true });
+        keyboard.addEventListener(event, keyTouchEvents[event], { passive: true });
     })
 }
 
