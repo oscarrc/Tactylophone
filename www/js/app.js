@@ -6,6 +6,7 @@ let pwa = null;
 const IS_APP = document.referrer.includes('android-app://me.oscarrc.tactylophone.twa');
 const IS_PWA = window.matchMedia('(display-mode: fullscreen)').matches;
 const IS_APPROVED = true;
+const TUNING_MODES = [0.5, 1, 2];
 const FREQUENCIES = {
     "1": 110,
     "1.5": 116.54,
@@ -94,7 +95,7 @@ const osc = {
         this.instance.disconnect();
     },
     tune: function(tuning) {
-        if(![0.5, 1, 2].includes(tuning)) return;
+        if(!TUNING_MODES.includes(tuning)) return;
         if(this.instance) this.instance.frequency.value = (this.instance.frequency.value / this.tuning) * tuning;
         this.tuning = tuning;
     },
@@ -159,18 +160,11 @@ const keyTouchEvents = {
     }
 }
 
-const keyboardBindigs = {
-    "v": toggleVibrato,
-    "p": togglePower,
-    1 : setTuning,
-    2 : setTuning,
-    3 : setTuning
-}
-
 const initKeyboard = () => {
     const keys = document.getElementsByClassName("key");
     const keyboard = document.getElementById("keys");
     
+    // Mouse events
     keyboard.addEventListener("mouseleave", () => {
         active = false;
         osc.stop();
@@ -182,6 +176,7 @@ const initKeyboard = () => {
         })
     })
 
+    // Touch events
     Object.keys(keyTouchEvents).map( event => {
         document.getElementById("keyboard").addEventListener(event, keyTouchEvents[event], { passive: true });
     })
@@ -209,7 +204,7 @@ const setTuning = (e) => {
     };
 
     if(e.type === "keydown"){
-        mode = modes[e.key - 1];
+        mode = TUNING_MODES[e.key - 1];
         document.querySelector(`.toggle-value[value='${mode}']`).checked = true;
     }
     
@@ -245,7 +240,13 @@ const togglePower = (e) => {
 };
 
 // Keyboard bindinds
-
+const keyboardBindigs = {
+    "v": toggleVibrato,
+    "p": togglePower,
+    1 : setTuning,
+    2 : setTuning,
+    3 : setTuning
+}
 
 const setKeyboardBindings = () => {
     document.addEventListener("keydown", (e) => {
