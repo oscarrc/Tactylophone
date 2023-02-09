@@ -1,9 +1,3 @@
-let audioContext = null;
-let mainOsc = null;
-let effectOsc = null;
-let vibrato =  false;
-let power = false;
-let tuning = 1;
 let active = false;
 let keyId = null;
 let touchId = null;
@@ -36,52 +30,68 @@ const FREQUENCIES = {
 }
 
 // OSCILLATOR
-
-// Vibrato effect
-const withVibrato = (param) => {
-    if(!audioContext || !power) return;
+const osc = {
+    instance: null,
+    context: null,
+    enabled: false,
+    tuning: 1,
+    vibrato: {
+        instance: null,
+        enabled: false,
+        start: function(){
+            if(!osc.context || !osc.instance || !osc.enabled) return;
+        
+            const oscillator = osc.context.createOscillator();
+            const envelopeEffect = osc.context.createGain();
+            
+            if(this.instance) this.instance.disconnect();
     
-    const oscEffect = audioContext.createOscillator();
-    const envelopeEffect = audioContext.createGain();
+            oscillator.frequency.value = 5
+            envelopeEffect.gain.value = 5;
     
-    oscEffect.frequency.value = 5
-    envelopeEffect.gain.value = 5;
+            oscillator.connect(envelopeEffect).connect(osc.instance.frequency);
+            oscillator.start();
+            
+            this.instance = oscillator;
+        },
+        stop: function(){        
+            if(!this.instance) return;
+            this.instance.stop();
+            this.instance.disconnect();
+        }
+    },    
+    play: function(note) {
+        if(!note) return
+        if(!this.enabled) return;
+        if(!this.context) this.context = new AudioContext();
+        
+        const freq = FREQUENCIES[note];
+        const osc = this.context.createOscillator();
+        const envelope = this.context.createGain();
+        
+        if(this.instance) this.instance.disconnect();
 
-    oscEffect.connect(envelopeEffect).connect(param);
-    oscEffect.start();
-    
-    effectOsc = oscEffect;
-}
+        osc.type = "square";
+        osc.frequency.value = freq * this.tuning;
+        envelope.gain.value = 0.3;
 
-//mainOSC Play
-const oscPlay = (note) => {
-    if(!note) return
-    if(!power) return;
-    if(!audioContext) audioContext = new AudioContext();
-    
-    const freq = FREQUENCIES[note];
-    const osc = audioContext.createOscillator();
-    const envelope = audioContext.createGain();
-    
-    if(mainOsc) mainOsc.disconnect();
+        osc.connect(envelope);
+        envelope.connect(this.context.destination);
+        osc.start();
+        
+        this.instance = osc;
 
-    osc.type = "square";
-    osc.frequency.value = freq * tuning;
-    envelope.gain.value = 0.3;
-
-    osc.connect(envelope);
-    envelope.connect(audioContext.destination);
-    osc.start();
-    
-    mainOsc = osc;
-    vibrato && withVibrato(osc.frequency)
-}
-
-// Stop mainOsc
-const oscStop = () => {
-    if(!mainOsc) return;
-    mainOsc.stop();
-    mainOsc.disconnect();
+        this.vibrato.enabled && this.vibrato.start();
+    },
+    stop: function() {
+        if(!this.instance) return;
+        this.instance.stop();
+        this.instance.disconnect();
+    },
+    tune: function(tuning) {
+        if(this.instance) this.instance.frequency.value = (this.instance.frequency.value / this.tuning) * tuning;
+        this.tuning = tuning;
+    }
 }
 
 // KEYBOARD AN KEY EVENT HANDLERS
@@ -91,17 +101,17 @@ const keyMouseEvents = {
     mousedown: (e) => {
         const note = e.target.getAttribute("data-key");
         active = true;
-        oscPlay(note);
+        osc.play(note);
     },
     mouseup: () => {
         active = false
-        oscStop();
+        osc.stop();
     },
     mouseenter: (e) => {
         const note = e.target.getAttribute("data-key");
-        active && oscPlay(note)
+        active && osc.play(note)
     },
-    mouseleave: oscStop
+    mouseleave: osc.stop
 }
 
 const setKeyMouseListeners = () => {
@@ -129,7 +139,7 @@ const keyTouchEvents = {
         touchId = touch.identifier;
         keyId = target?.id;
         
-        oscPlay(note);
+        osc.play(note);
     },
     touchmove: (e) => {
         const touch = Object.values(e.changedTouches).filter(t => t.identifier === touchId)?.[0];
@@ -142,13 +152,13 @@ const keyTouchEvents = {
 
         keyId = target?.id;
         
-        oscStop();
-        oscPlay(note);
+        osc.stop();
+        osc.play(note);
     },
     touchend: (e) => {
         if(Object.values(e.changedTouches).filter( t => t.identifier === touchId).length === 0 ) return;
         touchId = null;
-        oscStop();
+        osc.stop();
     }
 }
 
@@ -186,9 +196,7 @@ const setTuning = (e) => {
     }
     
     if(!modes.includes(mode)) return;
-    if(mainOsc) mainOsc.frequency.value = (mainOsc.frequency.value / tuning) * mode;
-    
-    tuning = mode;
+    osc.tune(mode);
 }
 
 // Power and vibrato switcehs
@@ -202,26 +210,26 @@ const setSwitchListeners = () => {
 // Vibrato toggle setter
 const toggleVibrato = (e) => {    
     if (e.type === "touchstart") e.preventDefault();
-    if(!vibrato && effectOsc) effectOsc.stop();
+    
+    osc.vibrato.enabled = !osc.vibrato.enabled;
 
-    vibrato = !vibrato;
-    document.getElementById("vibrato-handle").setAttribute("y", vibrato ? 308.6 : 283.6);
-    document.getElementById("vibrato-switch").setAttribute("aria-checked", vibrato);
+    document.getElementById("vibrato-handle").setAttribute("y", osc.vibrato.enabled ? 308.6 : 283.6);
+    document.getElementById("vibrato-switch").setAttribute("aria-checked", osc.vibrato.enabled);
+
+    if(!osc.vibrato.enabled) osc.vibrato.stop();
+    else osc.vibrato.start();
 };
 
 // Power toggle setter
 const togglePower = (e) => {
     if (e.type === "touchstart") e.preventDefault();
     
-    power = !power;   
-
-    document.getElementById("power-handle").setAttribute("y", power ? 308.6 : 283.6);
-    document.getElementById("power-switch").setAttribute("aria-checked", power);
+    osc.enabled = !osc.enabled;   
+    console.log(osc)
+    document.getElementById("power-handle").setAttribute("y", osc.enabled ? 308.6 : 283.6);
+    document.getElementById("power-switch").setAttribute("aria-checked", osc.enabled);
    
-    if(!power){
-        audioContext = null;
-        oscStop();
-    }else if(power && !audioContext) audioContext = new AudioContext();
+    if(!osc.enabled) osc.stop();
 };
 
 // Keyboard bindinds
@@ -339,7 +347,7 @@ if(IS_APP && !IS_APPROVED ) document.getElementById("ko-fi").remove();
 
 navigator.serviceWorker.register("worker.js", { scope: '/' });
 window.addEventListener("blur", () => { 
-    oscStop(); 
+    osc.stop(); 
     active = false
 });
 document.addEventListener("DOMContentLoaded", init);
