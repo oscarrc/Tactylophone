@@ -94,6 +94,7 @@ const osc = {
         this.instance.disconnect();
     },
     tune: function(tuning) {
+        if(![0.5, 1, 2].includes(tuning)) return;
         if(this.instance) this.instance.frequency.value = (this.instance.frequency.value / this.tuning) * tuning;
         this.tuning = tuning;
     },
@@ -191,7 +192,6 @@ const setToggleListeners = () => {
 
 // Tuning setter
 const setTuning = (e) => {
-    const modes = [0.5, 1, 2];
     let mode = parseFloat(e.target.value);
 
     if(e.type === "touchstart"){
@@ -204,7 +204,7 @@ const setTuning = (e) => {
         document.querySelector(`.toggle-value[value='${mode}']`).checked = true;
     }
     
-    if(modes.includes(mode)) osc.tune(mode);
+    osc.tune(mode);
 }
 
 // Power and vibrato switcehs
