@@ -124,22 +124,6 @@ const keyMouseEvents = {
     mouseleave: osc.stop
 }
 
-const setKeyMouseListeners = () => {
-    const keys = document.getElementsByClassName("key");
-    const keyboard = document.getElementById("keys");
-    
-    keyboard.addEventListener("mouseleave", () => {
-        active = false;
-        osc.stop();
-    });
-
-    Object.values(keys).forEach( key => {
-        Object.keys(keyMouseEvents).forEach( event => {
-            key.addEventListener(event, keyMouseEvents[event], { pasive: false })
-        })
-    })
-}
-
 // Touch events
 const keyTouchEvents = {
     touchstart: (e)=> {    
@@ -175,7 +159,29 @@ const keyTouchEvents = {
     }
 }
 
-const setKeyTouchListeners = () => {
+const keyboardBindigs = {
+    "v": toggleVibrato,
+    "p": togglePower,
+    1 : setTuning,
+    2 : setTuning,
+    3 : setTuning
+}
+
+const initKeyboard = () => {
+    const keys = document.getElementsByClassName("key");
+    const keyboard = document.getElementById("keys");
+    
+    keyboard.addEventListener("mouseleave", () => {
+        active = false;
+        osc.stop();
+    });
+
+    Object.values(keys).forEach( key => {
+        Object.keys(keyMouseEvents).forEach( event => {
+            key.addEventListener(event, keyMouseEvents[event], { pasive: false })
+        })
+    })
+
     Object.keys(keyTouchEvents).map( event => {
         document.getElementById("keyboard").addEventListener(event, keyTouchEvents[event], { passive: true });
     })
@@ -239,13 +245,7 @@ const togglePower = (e) => {
 };
 
 // Keyboard bindinds
-const keyboardBindigs = {
-    "v": toggleVibrato,
-    "p": togglePower,
-    1 : setTuning,
-    2 : setTuning,
-    3 : setTuning
-}
+
 
 const setKeyboardBindings = () => {
     document.addEventListener("keydown", (e) => {
@@ -342,8 +342,7 @@ const init = () => {
     handlePWA();
     handleLoader();
     handleFullscreen();
-    setKeyMouseListeners();
-    setKeyTouchListeners();
+    initKeyboard();
     setSwitchListeners();
     setToggleListeners();
     setKeyboardBindings();
