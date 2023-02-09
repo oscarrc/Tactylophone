@@ -58,6 +58,11 @@ const osc = {
             if(!this.instance) return;
             this.instance.stop();
             this.instance.disconnect();
+        },
+        toggle: function(){
+            this.enabled = !this.enabled;
+            if(!this.enabled) this.stop();
+            else this.start();
         }
     },    
     play: function(note) {
@@ -91,6 +96,10 @@ const osc = {
     tune: function(tuning) {
         if(this.instance) this.instance.frequency.value = (this.instance.frequency.value / this.tuning) * tuning;
         this.tuning = tuning;
+    },
+    toggle: function(){
+        this.enabled = !this.enabled;
+        if(!this.enabled) this.stop();
     }
 }
 
@@ -195,8 +204,7 @@ const setTuning = (e) => {
         document.querySelector(`.toggle-value[value='${mode}']`).checked = true;
     }
     
-    if(!modes.includes(mode)) return;
-    osc.tune(mode);
+    if(modes.includes(mode)) osc.tune(mode);
 }
 
 // Power and vibrato switcehs
@@ -210,26 +218,21 @@ const setSwitchListeners = () => {
 // Vibrato toggle setter
 const toggleVibrato = (e) => {    
     if (e.type === "touchstart") e.preventDefault();
-    
-    osc.vibrato.enabled = !osc.vibrato.enabled;
 
+    osc.vibrato.toggle();
+    
     document.getElementById("vibrato-handle").setAttribute("y", osc.vibrato.enabled ? 308.6 : 283.6);
     document.getElementById("vibrato-switch").setAttribute("aria-checked", osc.vibrato.enabled);
-
-    if(!osc.vibrato.enabled) osc.vibrato.stop();
-    else osc.vibrato.start();
 };
 
 // Power toggle setter
 const togglePower = (e) => {
     if (e.type === "touchstart") e.preventDefault();
     
-    osc.enabled = !osc.enabled;   
-    console.log(osc)
+    osc.toggle();
+    
     document.getElementById("power-handle").setAttribute("y", osc.enabled ? 308.6 : 283.6);
     document.getElementById("power-switch").setAttribute("aria-checked", osc.enabled);
-   
-    if(!osc.enabled) osc.stop();
 };
 
 // Keyboard bindinds
