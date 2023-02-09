@@ -128,7 +128,10 @@ const setKeyMouseListeners = () => {
     const keys = document.getElementsByClassName("key");
     const keyboard = document.getElementById("keys");
     
-    keyboard.addEventListener("mouseleave", () => active = false);
+    keyboard.addEventListener("mouseleave", () => {
+        active = false;
+        osc.stop();
+    });
 
     Object.values(keys).forEach( key => {
         Object.keys(keyMouseEvents).forEach( event => {
