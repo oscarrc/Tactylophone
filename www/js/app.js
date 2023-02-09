@@ -5,7 +5,7 @@ let pwa = null;
 
 const IS_APP = document.referrer.includes('android-app://me.oscarrc.tactylophone.twa');
 const IS_PWA = window.matchMedia('(display-mode: fullscreen)').matches;
-const IS_APPROVED = false;
+const IS_APPROVED = true;
 const FREQUENCIES = {
     "1": 110,
     "1.5": 116.54,
