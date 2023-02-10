@@ -21,6 +21,6 @@ const FREQUENCIES = {
     "11.5": 311.13,
     "12": 329.63
 }
-const APPROVED = false;
+const APPROVED = true;
 
 export { APPROVED, FREQUENCIES, TUNING_MODES }
