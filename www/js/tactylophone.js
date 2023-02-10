@@ -21,7 +21,7 @@ class Tactylophone {
         play: (note) => {
             if(!note) return
             if(!this.#osc.enabled) return;
-            if(!this.context) this.#context = new AudioContext();
+            if(!this.#context) this.#context = new AudioContext();
             
             const freq = this.frequencies[note];
             const osc = this.#context.createOscillator();
