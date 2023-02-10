@@ -4,28 +4,29 @@ import PWA from "./pwa.js";
 import Tactylophone from "./tactylophone.js";
 import { requestFullscreen } from "./helpers.js";
 
-const synth = {
-    active: false,
-    touchId: null,
-    keyId: null,
+const app = {
     tactylophone: new Tactylophone(FREQUENCIES, TUNING_MODES),
-    ui: {
+    pwa: new PWA(),
+    synth: {    
+        active: false,
+        touchId: null,
+        keyId: null,
         keys: {
             mouseEvents: {
                 mousedown(e){
                     const note = e.target.getAttribute("data-key");
-                    synth.active = true;
-                    synth.tactylophone.osc.play(note);
+                    app.synth.active = true;
+                    app.tactylophone.osc.play(note);
                 },
                 mouseup(){
-                    synth.active = false
-                    synth.tactylophone.osc.stop()
+                    app.synth.active = false
+                    app.tactylophone.osc.stop()
                 },
                 mouseenter(e){
                     const note = e.target.getAttribute("data-key");
-                    synth.active && synth.tactylophone.osc.play(note)
+                    app.synth.active && app.tactylophone.osc.play(note)
                 },
-                mouseleave(){ synth.tactylophone.osc.stop() }
+                mouseleave(){ app.tactylophone.osc.stop() }
             },
             touchEvents: {
                 touchstart(e){
@@ -33,39 +34,32 @@ const synth = {
                     const target = document.elementFromPoint(touch.pageX,touch.pageY);    
                     const note = target.getAttribute("data-key");    
                     
-                    if(touch.identifier !== synth.touchId && synth.touchId !== null) return;
+                    if(touch.identifier !== app.synth.touchId && app.synth.touchId !== null) return;
                     
-                    synth.touchId = touch.identifier;
-                    synth.keyId = target?.id;
+                    app.synth.touchId = touch.identifier;
+                    app.synth.keyId = target?.id;
                     
-                    synth.tactylophone.osc.play(note);
+                    app.tactylophone.osc.play(note);
                 },
                 touchmove(e){
-                    const touch = Object.values(e.changedTouches).filter(t => t.identifier === synth.touchId)?.[0];
+                    const touch = Object.values(e.changedTouches).filter(t => t.identifier === app.synth.touchId)?.[0];
                     if(!touch) return;
                 
                     const target = document.elementFromPoint(touch.pageX,touch.pageY);
                     const note = target?.getAttribute("data-key");
             
-                    if(target?.id === synth.keyId) return;
+                    if(target?.id === app.synth.keyId) return;
             
-                    synth.keyId = target?.id;
+                    app.synth.keyId = target?.id;
                     
-                    synth.tactylophone.osc.stop();
-                    synth.tactylophone.osc.play(note);
+                    app.tactylophone.osc.stop();
+                    app.tactylophone.osc.play(note);
                 },
                 touchend(e){
-                    if(Object.values(e.changedTouches).filter( t => t.identifier === synth.touchId).length === 0 ) return;
-                    synth.touchId = null;
-                    synth.tactylophone.osc.stop()
+                    if(Object.values(e.changedTouches).filter( t => t.identifier === app.synth.touchId).length === 0 ) return;
+                    app.synth.touchId = null;
+                    app.tactylophone.osc.stop()
                 }
-            },
-            keyboardBindings: {
-                v(){ synth.tactylophone.vibrato.toggle() },
-                p(){ synth.tactylophone.osc.toggle() },
-                1(v){ synth.tune(v) },
-                2(v){ synth.tune(v) },
-                3(v){ synth.tune(v) }
             },
             init(){
                 const keys = document.getElementsByClassName("key");
@@ -73,8 +67,8 @@ const synth = {
                 
                 // Mouse events
                 keyboard.addEventListener("mouseleave", () => {
-                    synth.active = false;
-                    synth.tactylophone.osc.stop();
+                    app.synth.active = false;
+                    app.tactylophone.osc.stop();
                 });
 
                 Object.values(keys).forEach( key => {
@@ -87,15 +81,23 @@ const synth = {
                 Object.keys(this.touchEvents).map( event => {
                     keyboard.addEventListener(event, this.touchEvents[event], { passive: true });
                 })
-
-                document.addEventListener("keydown", (e) => {
-                    const lowercaseKey = e.key.toLowerCase();
-                    if(!Object.keys(this.keyboardBindings).includes(lowercaseKey)) return;
-                    this.keyboardBindings[lowercaseKey](e);
-                })
             }
         },
-        toggles: {
+        toggles: {            
+            keyboardBindings: {
+                v(e){ app.synth.toggles.vibrato.toggle(e) },
+                p(e){ app.synth.toggles.power.toggle(e) },
+                1(v){ app.synth.tune(v) },
+                2(v){ app.synth.tune(v) },
+                3(v){ app.synth.tune(v) },
+                init(){
+                    document.addEventListener("keydown", (e) => {
+                        const lowercaseKey = e.key.toLowerCase();
+                        if(!Object.keys(this).includes(lowercaseKey)) return;
+                        this[lowercaseKey](e);
+                    })
+                }
+            },
             power: {
                 init(){
                     document.getElementById("power-switch").addEventListener("click", this.toggle);
@@ -104,9 +106,9 @@ const synth = {
                 },
                 toggle(e){
                     if (e.type === "touchstart") e.preventDefault();    
-                    synth.tactylophone.osc.toggle();                    
-                    document.getElementById("power-handle").setAttribute("y", synth.tactylophone.hasPower ? 308.6 : 283.6);
-                    document.getElementById("power-switch").setAttribute("aria-checked", synth.tactylophone.hasPower);
+                    app.tactylophone.osc.toggle();        
+                    document.getElementById("power-handle").setAttribute("y", app.tactylophone.hasPower ? 308.6 : 283.6);
+                    document.getElementById("power-switch").setAttribute("aria-checked", app.tactylophone.hasPower);
                 }
             },
             vibrato: {
@@ -117,45 +119,41 @@ const synth = {
                 },
                 toggle(e){
                     if (e.type === "touchstart") e.preventDefault();
-                    synth.tactylophone.vibrato.toggle();                   
-                    document.getElementById("vibrato-handle").setAttribute("y", synth.tactylophone.hasVibrato ? 308.6 : 283.6);
-                    document.getElementById("vibrato-switch").setAttribute("aria-checked", synth.tactylophone.hasVibrato);
+                    app.tactylophone.vibrato.toggle();                   
+                    document.getElementById("vibrato-handle").setAttribute("y", app.tactylophone.hasVibrato ? 308.6 : 283.6);
+                    document.getElementById("vibrato-switch").setAttribute("aria-checked", app.tactylophone.hasVibrato);
                 }
             },
             tuning: {
                 init(){
                     const toggle = document.getElementsByClassName("toggle-value");    
                     Object.values(toggle).forEach( t => {
-                        t.addEventListener("touchstart", this.tune, { passive: false });
-                        t.addEventListener("change", this.tune)
+                        t.addEventListener("touchstart", app.synth.tune, { passive: false });
+                        t.addEventListener("change", app.synth.tune)
                     })
                 },
             }
+        },            
+        tune(e){
+            let mode = parseFloat(e.target.value);
+    
+            if(e.type === "touchstart"){
+                e.preventDefault();
+                e.target.checked = true;
+            };
+    
+            if(e.type === "keydown"){
+                mode = TUNING_MODES[e.key - 1];
+                document.querySelector(`.toggle-value[value='${mode}']`).checked = true;
+            }
+    
+            app.tactylophone.tuning = mode;
+        },
+        init(){
+            this.keys.init();
+            Object.values(this.toggles).forEach(t => t.init());
         }
-    },    
-    tune(e){
-        let mode = parseFloat(e.target.value);
-
-        if(e.type === "touchstart"){
-            e.preventDefault();
-            e.target.checked = true;
-        };
-
-        if(e.type === "keydown"){
-            mode = TUNING_MODES[e.key - 1];
-            document.querySelector(`.toggle-value[value='${mode}']`).checked = true;
-        }
-
-        synth.tactylophone.tuning = mode;
     },
-    init(){
-        this.ui.keys.init();
-        Object.values(this.ui.toggles).forEach(t => t.init());
-    }
-}
-
-const app = {
-    pwa: new PWA(),
     buttons: {
         fullscreen: document.getElementById("fullscreen"),
         pwa: document.getElementById("pwa"),
@@ -213,7 +211,7 @@ const app = {
         navigator.serviceWorker.register("worker.js", { scope: '/' });
         this.loader();
         this.buttons.init();
-        synth.init();
+        this.synth.init();
     }
 }
 
