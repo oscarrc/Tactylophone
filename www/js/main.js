@@ -167,7 +167,7 @@ const app = {
             if(app.pwa.isTWA && !APPROVED) this.kofi.remove();
 
             if(app.pwa.isTWA || app.pwa.isPWA) this.pwa.remove();
-            else this.pwa.addEventListener("click", () => app.pwa.install());
+            else this.pwa.addEventListener("click", app.pwa.install);
 
             if(app.pwa.isTWA || app.pwa.isPWA) this.fullscreen.remove();
             else this.fullscreen.addEventListener("click", app.fullscreen.toggle)

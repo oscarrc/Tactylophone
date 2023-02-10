@@ -16,7 +16,7 @@ class PWA{
         return this.#installable;
     }
 
-    install(){
+    install = () => {
         this.#installable && this.#installer.prompt();
         this.#installer.userChoice.then((choiceResult) => {
             if(choiceResult.outcome === 'accepted') this.#installable = false;
