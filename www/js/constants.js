@@ -20,7 +20,7 @@ const FREQUENCIES = {
     "11":293.66,
     "11.5": 311.13,
     "12": 329.63
-}
+};
 const APPROVED = true;
 
 export { APPROVED, FREQUENCIES, TUNING_MODES }

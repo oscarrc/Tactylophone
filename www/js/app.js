@@ -165,8 +165,8 @@ const app = {
         kofi: document.getElementById("ko-fi"),
         init(){
             if(app.pwa.isTWA && !APPROVED) this.kofi.remove();
-
-            if(app.pwa.isTWA || app.pwa.isPWA) this.pwa.remove();
+            
+            if(!app.pwa.installable) this.pwa.remove();
             else this.pwa.addEventListener("click", app.pwa.install);
 
             if(app.pwa.isTWA || app.pwa.isPWA) this.fullscreen.remove();
@@ -213,11 +213,11 @@ const app = {
         }
     },
     init(){
-        navigator.serviceWorker.register("worker.js", { scope: '/' });
         this.loader();
         this.buttons.init();
         this.synth.init();
     }
 }
 
+navigator.serviceWorker.register("worker.js", { scope: '/' });
 app.init();

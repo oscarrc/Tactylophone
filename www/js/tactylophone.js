@@ -5,21 +5,21 @@ class Tactylophone {
         instance: false,
         enabled: false,
         tuning: 1
-    }
+    };
 
     #vibrato = {
         instance: false,
         enabled: false
-    }
+    };
 
     constructor(frequencies, tuningModes){
         this.frequencies = frequencies;
         this.tuningModes = tuningModes;
-    }
+    };
     
     osc = {
         play: (note) => {
-            if(!note) return
+            if(!note) return;
             if(!this.#osc.enabled) return;
             if(!this.#context) this.#context = new AudioContext();
             
@@ -60,7 +60,7 @@ class Tactylophone {
             
             if(this.#vibrato.instance) this.#vibrato.instance.disconnect();
     
-            oscillator.frequency.value = 5
+            oscillator.frequency.value = 5;
             envelopeEffect.gain.value = 5;
            
             oscillator.connect(envelopeEffect).connect(this.#osc.instance.frequency);
