@@ -163,14 +163,25 @@ const app = {
         fullscreen: document.getElementById("fullscreen"),
         pwa: document.getElementById("pwa"),
         kofi: document.getElementById("ko-fi"),
+        more: document.getElementById("fab-more"),
+        info: document.getElementById("info"),
         init(){
             if(app.pwa.isTWA && !APPROVED) this.kofi.remove();
             
-            if(!app.pwa.installable) this.pwa.remove();
-            else this.pwa.addEventListener("click", app.pwa.install);
-
-            if(app.pwa.isTWA || app.pwa.isPWA) this.fullscreen.remove();
-            else this.fullscreen.addEventListener("click", app.fullscreen.toggle)
+            this.pwa.remove();
+            this.fullscreen.remove();
+            
+            window.addEventListener("installable", (e) => {
+                if(!e.detail) {
+                    this.pwa.remove();
+                    this.fullscreen.remove();
+                }else{
+                    this.more.append(this.pwa);
+                    this.info.parentNode.insertBefore(this.fullscreen, this.info.nextSibling)
+                    this.pwa.addEventListener("click", app.pwa.install);
+                    this.fullscreen.addEventListener("click", app.fullscreen.toggle)
+                }
+            }) 
         }
     },
     fullscreen:{

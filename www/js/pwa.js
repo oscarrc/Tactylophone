@@ -4,11 +4,12 @@ class PWA{
 
     constructor(){
         window.addEventListener('beforeinstallprompt', (e) => {
-            this.#installable = true;
             this.#installer = e
+            this.isPWA = false
+            window.dispatchEvent(new CustomEvent('installable', { detail: true }));
         });
 
-        this.isPWA = window.matchMedia('(display-mode: fullscreen)').matches;
+        this.isPWA = true;
         this.isTWA = document.referrer.includes('android-app://me.oscarrc.tactylophone.twa');
     }
 
@@ -17,9 +18,9 @@ class PWA{
     }
 
     install = () => {
-        this.#installable && this.#installer.prompt();
+        this.#installer && this.#installer.prompt();
         this.#installer.userChoice.then((choiceResult) => {
-            if(choiceResult.outcome === 'accepted') this.#installable = false;
+            if(choiceResult.outcome === 'accepted') window.dispatchEvent(new CustomEvent('installable', { status: false }));
         });
     }
 }
