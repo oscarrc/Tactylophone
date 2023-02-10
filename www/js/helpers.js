@@ -1,4 +1,6 @@
 const requestFullscreen = () => {
+    const elem = document.documentElement;
+    
     if((window.innerWidth == screen.width && window.innerHeight == screen.height)){
         if (document.exitFullscreen) document.exitFullscreen();
         else if (document.msExitFullscreen) document.msExitFullscreen();

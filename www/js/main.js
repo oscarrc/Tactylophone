@@ -175,11 +175,11 @@ const app = {
         },
         toggle(){
             if(requestFullscreen()){
-                fullscreenButton.innerHTML = fullscreenIcon
-                fullscreenButton.setAttribute("data-tooltip", "Fullscreen");
+                app.buttons.fullscreen.innerHTML = app.fullscreen.icons.fullscreen
+                app.buttons.fullscreen.setAttribute("data-tooltip", "Fullscreen");
             }else{
-                fullscreenButton.innerHTML = restoreIcon
-                fullscreenButton.setAttribute("data-tooltip", "Restore");
+                app.buttons.fullscreen.innerHTML = app.fullscreen.icons.restore
+                app.buttons.fullscreen.setAttribute("data-tooltip", "Restore");
             }
         }
     },
