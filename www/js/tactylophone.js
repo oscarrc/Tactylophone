@@ -39,8 +39,7 @@ class Tactylophone {
             osc.start();
             
             this.$.#osc.instance = osc;
-    
-            this.$.vibrato.enabled && this.$.vibrato.start();
+            this.$.#vibrato.enabled && this.$.vibrato.start();
         },    
         stop(){
             if(!this.$.#osc.instance) return;
@@ -56,7 +55,7 @@ class Tactylophone {
     vibrato = {
         $: this,
         start(){
-            if(!this.$.#osc.context || !this.$.#osc.instance || !this.$.#osc.enabled) return;
+            if(!this.$.#context || !this.$.#osc.instance || !this.$.#osc.enabled) return;
         
             const oscillator = this.$.#context.createOscillator();
             const envelopeEffect = this.$.#context.createGain();
@@ -65,7 +64,7 @@ class Tactylophone {
     
             oscillator.frequency.value = 5
             envelopeEffect.gain.value = 5;
-    
+           
             oscillator.connect(envelopeEffect).connect(this.$.#osc.instance.frequency);
             oscillator.start();
             
