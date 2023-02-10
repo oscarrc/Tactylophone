@@ -14,12 +14,14 @@
   "homepage": "./",
   "private": true,
   "scripts": {
+    "start": "serve www",
     "deploy": "surge www tactylophone.oscarrc.me",
     "init": "bubblewrap init --manifest https://tactylophone.oscarrc.me/manifest.json --directory android/",
     "build": "cd android && bubblewrap build",
     "update": "bubblewrap update --appVersionName 1 --manifest https://nts-web.oscarrc.me/manifest.json"
   },
   "dependencies": {
-    "bubblewrap": "^0.2.0"
+    "bubblewrap": "^0.2.0",
+    "serve": "^14.2.0"
   }
 }

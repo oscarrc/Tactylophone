@@ -1,0 +1,220 @@
+import { APPROVED, FREQUENCIES, TUNING_MODES } from "./constants.js";
+
+import PWA from "./pwa.js";
+import Tactylophone from "./tactylophone.js";
+import { requestFullscreen } from "./helpers.js";
+
+const synth = {
+    active: false,
+    touchId: null,
+    keyId: null,
+    tactylophone: new Tactylophone(FREQUENCIES, TUNING_MODES),
+    ui: {
+        keys: {
+            mouseEvents: {
+                mousedown(e){
+                    const note = e.target.getAttribute("data-key");
+                    synth.active = true;
+                    synth.tactylophone.osc.play(note);
+                },
+                mouseup(){
+                    synth.active = false
+                    synth.tactylophone.osc.stop()
+                },
+                mouseenter(e){
+                    const note = e.target.getAttribute("data-key");
+                    synth.active && synth.tactylophone.osc.play(note)
+                },
+                mouseleave(){ synth.tactylophone.osc.stop() }
+            },
+            touchEvents: {
+                touchstart(e){
+                    const touch = e.touches[0];
+                    const target = document.elementFromPoint(touch.pageX,touch.pageY);    
+                    const note = target.getAttribute("data-key");    
+                    
+                    if(touch.identifier !== synth.touchId && synth.touchId !== null) return;
+                    
+                    synth.touchId = touch.identifier;
+                    synth.keyId = target?.id;
+                    
+                    synth.tactylophone.osc.play(note);
+                },
+                touchmove(e){
+                    const touch = Object.values(e.changedTouches).filter(t => t.identifier === synth.touchId)?.[0];
+                    if(!touch) return;
+                
+                    const target = document.elementFromPoint(touch.pageX,touch.pageY);
+                    const note = target?.getAttribute("data-key");
+            
+                    if(target?.id === synth.keyId) return;
+            
+                    synth.keyId = target?.id;
+                    
+                    synth.tactylophone.osc.stop();
+                    synth.tactylophone.osc.play(note);
+                },
+                touchend(e){
+                    if(Object.values(e.changedTouches).filter( t => t.identifier === synth.touchId).length === 0 ) return;
+                    synth.touchId = null;
+                    synth.tactylophone.osc.stop()
+                }
+            },
+            keyboardBindings: {
+                v(){ synth.tactylophone.vibrato.toggle() },
+                p(){ synth.tactylophone.osc.toggle() },
+                1(v){ synth.tune(v) },
+                2(v){ synth.tune(v) },
+                3(v){ synth.tune(v) }
+            },
+            init(){
+                const keys = document.getElementsByClassName("key");
+                const keyboard = document.getElementById("keys");
+                
+                // Mouse events
+                keyboard.addEventListener("mouseleave", () => {
+                    synth.active = false;
+                    synth.tactylophone.osc.stop();
+                });
+
+                Object.values(keys).forEach( key => {
+                    Object.keys(this.mouseEvents).forEach( event => {
+                        key.addEventListener(event, this.mouseEvents[event], { pasive: false })
+                    })
+                })
+
+                // Touch events
+                Object.keys(this.touchEvents).map( event => {
+                    keyboard.addEventListener(event, this.touchEvents[event], { passive: true });
+                })
+
+                document.addEventListener("keydown", (e) => {
+                    const lowercaseKey = e.key.toLowerCase();
+                    if(!Object.keys(this.keyboardBindings).includes(lowercaseKey)) return;
+                    this.keyboardBindings[lowercaseKey](e);
+                })
+            }
+        },
+        toggles: {
+            power: {
+                init(){
+                    document.getElementById("power-switch").addEventListener("click", this.toggle);
+                    document.getElementById("power-switch").addEventListener("touchstart", this.toggle, { passive: false });
+                
+                },
+                toggle(e){
+                    if (e.type === "touchstart") e.preventDefault();    
+                    synth.tactylophone.osc.toggle();                    
+                    document.getElementById("power-handle").setAttribute("y", synth.tactylophone.hasPower ? 308.6 : 283.6);
+                    document.getElementById("power-switch").setAttribute("aria-checked", synth.tactylophone.hasPower);
+                }
+            },
+            vibrato: {
+                init(){
+                    document.getElementById("vibrato-switch").addEventListener("click", this.toggle);
+                    document.getElementById("vibrato-switch").addEventListener("touchstart", this.toggle, { passive: false });
+                
+                },
+                toggle(e){
+                    if (e.type === "touchstart") e.preventDefault();
+                    synth.tactylophone.vibrato.toggle();                   
+                    document.getElementById("vibrato-handle").setAttribute("y", synth.tactylophone.hasVibrato ? 308.6 : 283.6);
+                    document.getElementById("vibrato-switch").setAttribute("aria-checked", synth.tactylophone.hasVibrato);
+                }
+            },
+            tuning: {
+                init(){
+                    const toggle = document.getElementsByClassName("toggle-value");    
+                    Object.values(toggle).forEach( t => {
+                        t.addEventListener("touchstart", this.tune, { passive: false });
+                        t.addEventListener("change", this.tune)
+                    })
+                },
+            }
+        }
+    },    
+    tune(e){
+        let mode = parseFloat(e.target.value);
+
+        if(e.type === "touchstart"){
+            e.preventDefault();
+            e.target.checked = true;
+        };
+
+        if(e.type === "keydown"){
+            mode = TUNING_MODES[e.key - 1];
+            document.querySelector(`.toggle-value[value='${mode}']`).checked = true;
+        }
+
+        synth.tactylophone.tuning = mode;
+    },
+    init(){
+        this.ui.keys.init();
+        Object.values(this.ui.toggles).forEach(t => t.init());
+    }
+}
+
+const app = {
+    pwa: new PWA(),
+    buttons: {
+        fullscreen: document.getElementById("fullscreen"),
+        pwa: document.getElementById("pwa"),
+        kofi: document.getElementById("ko-fi"),
+        init(){
+            if(app.pwa.isTWA && !APPROVED) this.kofi.remove();
+
+            if(app.pwa.isTWA || app.pwa.isPWA) this.pwa.remove();
+            else this.pwa.addEventListener("click", app.pwa.install);
+
+            if(app.pwa.isTWA || app.pwa.isPWA) this.fullscreen.remove();
+            else this.fullscreen.addEventListener("click", app.fullscreen.toggle)
+        }
+    },
+    fullscreen:{
+        icons: {
+            fullscreen: '<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M290 236.4l43.9-43.9a8.01 8.01 0 0 0-4.7-13.6L169 160c-5.1-.6-9.5 3.7-8.9 8.9L179 329.1c.8 6.6 8.9 9.4 13.6 4.7l43.7-43.7L370 423.7c3.1 3.1 8.2 3.1 11.3 0l42.4-42.3c3.1-3.1 3.1-8.2 0-11.3L290 236.4zm352.7 187.3c3.1 3.1 8.2 3.1 11.3 0l133.7-133.6 43.7 43.7a8.01 8.01 0 0 0 13.6-4.7L863.9 169c.6-5.1-3.7-9.5-8.9-8.9L694.8 179c-6.6.8-9.4 8.9-4.7 13.6l43.9 43.9L600.3 370a8.03 8.03 0 0 0 0 11.3l42.4 42.4zM845 694.9c-.8-6.6-8.9-9.4-13.6-4.7l-43.7 43.7L654 600.3a8.03 8.03 0 0 0-11.3 0l-42.4 42.3a8.03 8.03 0 0 0 0 11.3L734 787.6l-43.9 43.9a8.01 8.01 0 0 0 4.7 13.6L855 864c5.1.6 9.5-3.7 8.9-8.9L845 694.9zm-463.7-94.6a8.03 8.03 0 0 0-11.3 0L236.3 733.9l-43.7-43.7a8.01 8.01 0 0 0-13.6 4.7L160.1 855c-.6 5.1 3.7 9.5 8.9 8.9L329.2 845c6.6-.8 9.4-8.9 4.7-13.6L290 787.6 423.7 654c3.1-3.1 3.1-8.2 0-11.3l-42.4-42.4z"></path></svg>',
+            restore: '<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M391 240.9c-.8-6.6-8.9-9.4-13.6-4.7l-43.7 43.7L200 146.3a8.03 8.03 0 0 0-11.3 0l-42.4 42.3a8.03 8.03 0 0 0 0 11.3L280 333.6l-43.9 43.9a8.01 8.01 0 0 0 4.7 13.6L401 410c5.1.6 9.5-3.7 8.9-8.9L391 240.9zm10.1 373.2L240.8 633c-6.6.8-9.4 8.9-4.7 13.6l43.9 43.9L146.3 824a8.03 8.03 0 0 0 0 11.3l42.4 42.3c3.1 3.1 8.2 3.1 11.3 0L333.7 744l43.7 43.7A8.01 8.01 0 0 0 391 783l18.9-160.1c.6-5.1-3.7-9.4-8.8-8.8zm221.8-204.2L783.2 391c6.6-.8 9.4-8.9 4.7-13.6L744 333.6 877.7 200c3.1-3.1 3.1-8.2 0-11.3l-42.4-42.3a8.03 8.03 0 0 0-11.3 0L690.3 279.9l-43.7-43.7a8.01 8.01 0 0 0-13.6 4.7L614.1 401c-.6 5.2 3.7 9.5 8.8 8.9zM744 690.4l43.9-43.9a8.01 8.01 0 0 0-4.7-13.6L623 614c-5.1-.6-9.5 3.7-8.9 8.9L633 783.1c.8 6.6 8.9 9.4 13.6 4.7l43.7-43.7L824 877.7c3.1 3.1 8.2 3.1 11.3 0l42.4-42.3c3.1-3.1 3.1-8.2 0-11.3L744 690.4z"></path></svg>'
+        },
+        toggle(){
+            if(requestFullscreen()){
+                fullscreenButton.innerHTML = fullscreenIcon
+                fullscreenButton.setAttribute("data-tooltip", "Fullscreen");
+            }else{
+                fullscreenButton.innerHTML = restoreIcon
+                fullscreenButton.setAttribute("data-tooltip", "Restore");
+            }
+        }
+    },
+    loader(){
+        const loader = document.getElementById("loader");
+        const logo = document.getElementById("tactylophone-logo");
+        
+        if(app.pwa.isTWA || app.pwa.isPWA) return loader.remove();
+        
+        if("onanimationend" in logo){
+            logo.addEventListener("animationend", () => {
+                loader.style.opacity = 0;
+
+                if("ontransitionend" in loader){ 
+                    loader.addEventListener("transitionend", () => {
+                        document.getElementById("main").style.opacity = 1;
+                        loader.remove();
+                    })     
+                }else{
+                    document.getElementById("main").style.opacity = 1;
+                    loader.remove();
+                }           
+            }, false);
+        }else{
+            loader.remove();
+        }
+    },
+    init(){
+        navigator.serviceWorker.register("worker.js", { scope: '/' });
+        this.loader();
+        this.buttons.init();
+        synth.init();
+    }
+}
+
+app.init();
