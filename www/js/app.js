@@ -169,7 +169,7 @@ const app = {
             if(app.pwa.isTWA && !APPROVED) this.kofi.remove();
 
             this.fullscreen.remove();
-            if(checkFullscreen()){                
+            if(supportsFullscreen()){                
                 this.info.parentNode.insertBefore(this.fullscreen, this.info.nextSibling)
                 this.fullscreen.addEventListener("click", app.fullscreen.toggle)
             }
