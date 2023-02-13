@@ -1,5 +1,5 @@
 import { APPROVED, FREQUENCIES, TUNING_MODES } from "./constants.js";
-import { checkFullscreen, requestFullscreen } from "./helpers.js";
+import { requestFullscreen, supportsFullscreen } from "./helpers.js";
 
 import PWA from "./pwa.js";
 import Tactylophone from "./tactylophone.js";
