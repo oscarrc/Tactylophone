@@ -1,8 +1,8 @@
 import { APPROVED, FREQUENCIES, TUNING_MODES } from "./constants.js";
+import { checkFullscreen, requestFullscreen } from "./helpers.js";
 
 import PWA from "./pwa.js";
 import Tactylophone from "./tactylophone.js";
-import { requestFullscreen } from "./helpers.js";
 
 const app = {
     tactylophone: new Tactylophone(FREQUENCIES, TUNING_MODES),
@@ -167,17 +167,20 @@ const app = {
         info: document.getElementById("info"),
         init(){
             if(app.pwa.isTWA && !APPROVED) this.kofi.remove();
-            
-            this.pwa.remove();
+
             this.fullscreen.remove();
-            
+            if(checkFullscreen()){                
+                this.info.parentNode.insertBefore(this.fullscreen, this.info.nextSibling)
+                this.fullscreen.addEventListener("click", app.fullscreen.toggle)
+            }
+
+            this.pwa.remove();            
             window.addEventListener("installable", (e) => {
                 if(!e.detail) return
                 
                 this.more.append(this.pwa);
-                this.info.parentNode.insertBefore(this.fullscreen, this.info.nextSibling)
                 this.pwa.addEventListener("click", app.pwa.install);
-                this.fullscreen.addEventListener("click", app.fullscreen.toggle)
+                
             }) 
         }
     },

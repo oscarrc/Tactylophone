@@ -17,4 +17,9 @@ const requestFullscreen = () => {
     }
 }
 
-export { requestFullscreen }
+const checkFullscreen = () => {    
+    const elem = document.documentElement;
+    return ["requestFullscreen", "webkitRequestFullscreen", "msRequestFullscreen"].some( p => p in elem)
+}
+
+export { requestFullscreen, checkFullscreen }
