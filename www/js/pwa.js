@@ -5,6 +5,7 @@ class PWA{
     constructor(){
         window.addEventListener('beforeinstallprompt', (e) => {
             this.#installer = e
+            this.#installable = true;
             this.isPWA = false
             window.dispatchEvent(new CustomEvent('installable', { detail: true }));
         });

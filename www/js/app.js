@@ -172,15 +172,12 @@ const app = {
             this.fullscreen.remove();
             
             window.addEventListener("installable", (e) => {
-                if(!e.detail) {
-                    this.pwa.remove();
-                    this.fullscreen.remove();
-                }else{
-                    this.more.append(this.pwa);
-                    this.info.parentNode.insertBefore(this.fullscreen, this.info.nextSibling)
-                    this.pwa.addEventListener("click", app.pwa.install);
-                    this.fullscreen.addEventListener("click", app.fullscreen.toggle)
-                }
+                if(!e.detail) return
+                
+                this.more.append(this.pwa);
+                this.info.parentNode.insertBefore(this.fullscreen, this.info.nextSibling)
+                this.pwa.addEventListener("click", app.pwa.install);
+                this.fullscreen.addEventListener("click", app.fullscreen.toggle)
             }) 
         }
     },
