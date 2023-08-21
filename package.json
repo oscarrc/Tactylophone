@@ -16,12 +16,12 @@
   "scripts": {
     "start": "serve www",
     "deploy": "surge www tactylophone.oscarrc.me",
-    "init": "bubblewrap init --manifest https://tactylophone.oscarrc.me/manifest.json --directory android/",
+    "init": "bubblewrap init --manifest https://tactylophone.oscarrc.me/manifest.webmanifest --directory android/",
     "build": "cd android && bubblewrap build",
-    "update": "bubblewrap update --appVersionName 1 --manifest https://nts-web.oscarrc.me/manifest.json"
+    "update": "bubblewrap update --appVersionName 3 --manifest https://nts-web.oscarrc.me/manifest.webmanifest"
   },
   "dependencies": {
-    "bubblewrap": "^0.2.0",
+    "@bubblewrap/cli": "^1.18.1",
     "serve": "^14.2.0"
   }
 }
