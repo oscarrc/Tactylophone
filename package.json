@@ -21,7 +21,7 @@
     "update": "bubblewrap update --appVersionName 3 --manifest https://nts-web.oscarrc.me/manifest.webmanifest"
   },
   "dependencies": {
-    "@bubblewrap/cli": "^1.18.1",
-    "serve": "^14.2.0"
+    "@bubblewrap/cli": "^1.21.0",
+    "serve": "^14.2.3"
   }
 }
