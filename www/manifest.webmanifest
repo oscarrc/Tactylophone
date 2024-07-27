@@ -15,7 +15,20 @@
         {
           "src": "img/feature.png",
           "type": "image/png",
-          "sizes": "1024x500"
+          "sizes": "1024x500",
+          "form_factor": "wide"
+        },
+        {
+          "src": "img/playstore1.png",
+          "type": "image/png",
+          "sizes": "1600x3200",
+          "form_factor": "narrow"
+        },
+        {
+          "src": "img/playstore2.png",
+          "type": "image/png",
+          "sizes": "1600x3200",
+          "form_factor": "narrow"
         }
       ],
     "icons": [
