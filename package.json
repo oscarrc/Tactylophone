@@ -18,7 +18,7 @@
     "deploy": "surge www tactylophone.oscarrc.me",
     "init": "bubblewrap init --manifest https://tactylophone.oscarrc.me/manifest.webmanifest --directory android/",
     "build": "cd android && bubblewrap build",
-    "update": "bubblewrap update --appVersionName 3 --manifest https://nts-web.oscarrc.me/manifest.webmanifest"
+    "update": "bubblewrap update --appVersionName 4 --manifest https://tactylophone.oscarrc.me/manifest.webmanifest"
   },
   "dependencies": {
     "@bubblewrap/cli": "^1.21.0",
