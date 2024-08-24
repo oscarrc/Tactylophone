@@ -21,7 +21,7 @@
     "update": "bubblewrap update --appVersionName 4 --manifest https://tactylophone.oscarrc.me/manifest.webmanifest"
   },
   "dependencies": {
-    "@bubblewrap/cli": "^1.21.0",
+    "@bubblewrap/cli": "^1.22.0",
     "serve": "^14.2.3"
   }
 }
